@@ -146,7 +146,7 @@ export async function loginWithPassKey(username: string){
 		} else {
 			throw { data: { detail: 'Error during webAuthn' } };
 		}
-		return false;
+		return [null, null];
 	} catch (error: any) {
 		return [null, error.data];
 	}
@@ -174,7 +174,7 @@ export async function registerPassKey(username: string) {
 		} else {
 			throw { data: { detail: 'Error during webAuthn' } };
 		}
-		return false;
+		return [null,null];
 	} catch (error: any) {
 		return [null, error.data];
 	}

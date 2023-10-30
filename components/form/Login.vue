@@ -230,10 +230,14 @@ export default defineComponent({
 
     // ============================================================= functions
     async function onLoginPassKey() {
+      form.submitting = true;
       const username = form.username?.value;
-      await loginWithPassKey(username);
-      openSnackbar("error", "Error.InvalidWebauth");
-
+      const [success, error] = await loginWithPassKey(username);
+      form.submitting = false;
+      if(!success){
+        openSnackbar("error", "Error.InvalidWebauth");
+      }
+      // TODO
     }
 
     async function onclickSubmitForm() {
