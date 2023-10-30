@@ -28,12 +28,19 @@
 		/>
 
 		<Input
-			v-if="!register_token"
+			v-if="!register_token && !form.usePassKey.value"
 			:label="t('Inputs.Password')"
 			type="password"
 			v-model="form.password.value"
 			@valid="form.password.valid = $event"
 			:rules="form.password.rules"
+		/>
+
+		<InputCheckbox
+			id="PassKey"
+			label="Links.PassKey"
+			v-model="form.usePassKey.value"
+			@change="onUsePassKeyChange()"
 		/>
 
 		<InputCheckbox
@@ -138,6 +145,14 @@ export default defineComponent({
 						'Error.InputPasswordError',
 				],
 			},
+			passKey: {
+				valid: true,
+				value: null,
+			},
+			usePassKey: {
+				value: false,
+				valid: false
+			},
 			termsAndConditions: {
 				value: false,
 				valid: false,
@@ -180,6 +195,7 @@ export default defineComponent({
 						key != 'validate' &&
 						key != 'body' &&
 						key != 'submitting' &&
+						key != 'usePassKey' &&
 						key != 'termsAndConditions' &&
 						key != 'newsletter' &&
 						key != 'privacy'
@@ -224,13 +240,26 @@ export default defineComponent({
 		});
 
 		// ============================================================= functions
+		async function onUsePassKeyChange() {
+			if(form.usePassKey){
+				form.password.visible = false;
+				const passKey = await registerPassKey(form.name);
+				if(passKey == null){
+					openSnackbar('error', 'Error.InvalidForm');
+					return;
+				}
+			}else{
+				form.password.visible = true;
+			}
+		}
+
 		async function onclickSubmitForm() {
 			if (form.validate()) {
 				form.submitting = true;
 
 				let recaptcha_response = await getReCaptchaToken();
 
-				const updatedBody = !!register_token.value
+				let updatedBody = !!register_token.value
 					? {
 							...form.body(),
 							recaptcha_response: recaptcha_response,
@@ -241,8 +270,14 @@ export default defineComponent({
 							recaptcha_response: recaptcha_response,
 					  };
 
-				const [success, error] = await signup(updatedBody);
+			    if(form.usePassKey){
+					updatedBody = {
+						...updatedBody,
+						passKey: form.passKey
+					}
+				}
 
+				const [success, error] = await signup(updatedBody);
 				if (!!success) await requestEmailVerification();
 
 				let isNewsletter = false;
@@ -285,6 +320,7 @@ export default defineComponent({
 
 		return {
 			form,
+			onUsePassKeyChange,
 			onclickSubmitForm,
 			refForm,
 			t,

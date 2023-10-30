@@ -1,4 +1,5 @@
 import { GET, POST } from './fetch';
+import {fido2Create} from "@ownid/webauthn"
 
 export const useOauthProviders = () => useState('oauthProviders', () => []);
 
@@ -126,7 +127,27 @@ export async function login(body: any) {
 	}
 }
 
-export async function signup(body: any) {
+export async function registerPassKey(username: string) {
+	const body: any = {"username":username};
+	const response = await POST('/register/start', body);
+	if(response?.ok){
+		const publicKey = response.publicKey;
+		const body: any = {"publicKey":publicKey};;
+		const passKeyData = await fido2Create(body, username);
+		const passKeyBody: any = passKeyData;
+		const passKeyResponse = await POST('/register/finish', passKeyBody);
+		if(passKeyResponse?.ok){
+			const data = response.data;
+			if (!data) {
+				throw { data: { detail: 'Error during webAuthn' } };
+			}
+			return data;
+		}
+	};
+	return null;
+ }
+ 
+ export async function signup(body: any) {
 	try {
 		const response = await POST('/auth/users', body);
 
