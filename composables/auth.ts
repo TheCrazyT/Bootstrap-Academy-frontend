@@ -1,5 +1,5 @@
 import { GET, POST } from './fetch';
-import {fido2Create} from "@ownid/webauthn"
+import { fido2Create, fido2Get } from "@ownid/webauthn"
 
 export const useOauthProviders = () => useState('oauthProviders', () => []);
 
@@ -127,24 +127,57 @@ export async function login(body: any) {
 	}
 }
 
+export async function loginWithPassKey(username: string){
+	try {
+		const body: any = {username: username};
+		const response = await POST('/login/start', body);
+		if(response?.ok){
+			const publicKey: PublicKeyCredential = response.publicKey;
+			const data = await fido2Get(publicKey, username);
+			const passKeyBody: any = {data: data};
+			const passKeyreponse = await POST('/login/finish', passKeyBody);
+			if(passKeyreponse?.ok){
+				const data = passKeyreponse.data;
+				if (!data) {
+					throw { data: { detail: 'Error during webAuthn' } };
+				}
+				return [response, null];
+			}
+		} else {
+			throw { data: { detail: 'Error during webAuthn' } };
+		}
+		return false;
+	} catch (error: any) {
+		return [null, error.data];
+	}
+}
+
 export async function registerPassKey(username: string) {
-	const body: any = {"username":username};
-	const response = await POST('/register/start', body);
-	if(response?.ok){
-		const publicKey = response.publicKey;
-		const body: any = {"publicKey":publicKey};;
-		const passKeyData = await fido2Create(body, username);
-		const passKeyBody: any = passKeyData;
-		const passKeyResponse = await POST('/register/finish', passKeyBody);
-		if(passKeyResponse?.ok){
-			const data = response.data;
-			if (!data) {
+	try {
+		const body: any = {"username":username};
+		const response = await POST('/register/start', body);
+		if(response?.ok){
+			const publicKey = response.publicKey;
+			const body: any = {"publicKey":publicKey};;
+			const passKeyData = await fido2Create(body, username);
+			const passKeyBody: any = passKeyData;
+			const passKeyResponse = await POST('/register/finish', passKeyBody);
+			if(passKeyResponse?.ok){
+				const data = response.data;
+				if (!data) {
+					throw { data: { detail: 'Error during webAuthn' } };
+				}
+				return [response, null];
+			} else {
 				throw { data: { detail: 'Error during webAuthn' } };
 			}
-			return data;
+		} else {
+			throw { data: { detail: 'Error during webAuthn' } };
 		}
-	};
-	return null;
+		return false;
+	} catch (error: any) {
+		return [null, error.data];
+	}
  }
  
  export async function signup(body: any) {

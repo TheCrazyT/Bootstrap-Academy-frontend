@@ -245,7 +245,7 @@ export default defineComponent({
 				form.password.visible = false;
 				const passKey = await registerPassKey(form.name);
 				if(passKey == null){
-					openSnackbar('error', 'Error.InvalidForm');
+					openSnackbar('error', 'Error.InvalidWebauth');
 					return;
 				}
 			}else{
