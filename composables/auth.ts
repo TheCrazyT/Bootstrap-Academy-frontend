@@ -167,14 +167,13 @@ export async function registerPassKey(username: string) {
 				if (!data) {
 					throw { data: { detail: 'Error during webAuthn' } };
 				}
-				return [response, null];
+				return [passKeyResponse, null];
 			} else {
 				throw { data: { detail: 'Error during webAuthn' } };
 			}
 		} else {
 			throw { data: { detail: 'Error during webAuthn' } };
 		}
-		return [null,null];
 	} catch (error: any) {
 		return [null, error.data];
 	}

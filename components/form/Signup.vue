@@ -27,21 +27,27 @@
 			:rules="form.email.rules"
 		/>
 
-		<Input
-			v-if="!register_token && !form.usePassKey.value"
-			:label="t('Inputs.Password')"
-			type="password"
-			v-model="form.password.value"
-			@valid="form.password.valid = $event"
-			:rules="form.password.rules"
-		/>
+		<div class="flex flex-wrap gap-container">
+			<Input
+				v-if="!register_token"
+				:label="t('Inputs.Password')"
+				type="password"
+				v-model="form.password.value"
+				@valid="form.password.valid = $event"
+				:rules="form.password.rules"
+			/>
 
-		<InputCheckbox
-			id="PassKey"
-			label="Links.PassKey"
-			v-model="form.usePassKey.value"
-			@change="onUsePassKeyChange()"
-		/>
+			<div style="padding-top:30px">
+				<InputBtn
+					:loading="form.submitting"
+					id="PassKey"
+					@click="onUsePassKey()"
+					class="sm"
+				>
+					{{ t('Buttons.PassKey') }}
+				</InputBtn>
+			</div>
+		</div>
 
 		<InputCheckbox
 			label="Links.IAgreeTo"
@@ -240,17 +246,16 @@ export default defineComponent({
 		});
 
 		// ============================================================= functions
-		async function onUsePassKeyChange() {
-			if(form.usePassKey){
-				form.password.visible = false;
-				const passKey = await registerPassKey(form.name);
-				if(passKey == null){
-					openSnackbar('error', 'Error.InvalidWebauth');
-					return;
-				}
-			}else{
-				form.password.visible = true;
+		async function onUsePassKey() {
+			form.submitting = true;
+			form.usePassKey = false;
+			const [passKeyResponse, err] = await registerPassKey(form.name);
+			form.submitting = false;
+			if(passKeyResponse == null){
+				openSnackbar('error', 'Error.InvalidWebauth');
+				return;
 			}
+			form.usePassKey = true;
 		}
 
 		async function onclickSubmitForm() {
@@ -320,7 +325,7 @@ export default defineComponent({
 
 		return {
 			form,
-			onUsePassKeyChange,
+			onUsePassKey,
 			onclickSubmitForm,
 			refForm,
 			t,
