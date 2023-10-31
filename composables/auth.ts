@@ -1,5 +1,5 @@
 import { GET, POST } from './fetch';
-import { fido2Create, fido2Get } from "@ownid/webauthn"
+import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
 export const useOauthProviders = () => useState('oauthProviders', () => []);
 
@@ -130,15 +130,13 @@ export async function login(body: any) {
 export async function loginWithPassKey(username: string){
 	try {
 		const body: any = {username: username};
-		const response = await POST('/login/start', body);
+		const response = await POST('/generate-registration-options', body);
 		if(response?.ok){
-			const publicKey: PublicKeyCredential = response.publicKey;
-			const data = await fido2Get(publicKey, username);
-			const passKeyBody: any = {data: data};
-			const passKeyreponse = await POST('/login/finish', passKeyBody);
-			if(passKeyreponse?.ok){
-				const data = passKeyreponse.data;
-				if (!data) {
+			const attResp  = await startRegistration(response);
+			const attBody:any = attResp;
+			const verificationResp = await POST('/verify-registration', attBody);
+			if(verificationResp?.ok){
+				if (!verificationResp.verified) {
 					throw { data: { detail: 'Error during webAuthn' } };
 				}
 				return [response, null];
@@ -155,16 +153,14 @@ export async function loginWithPassKey(username: string){
 export async function registerPassKey(username: string) {
 	try {
 		const body: any = {"username":username};
-		const response = await POST('/register/start', body);
+		const response = await POST('/generate-authentication-options', body);
 		if(response?.ok){
-			const publicKey = response.publicKey;
-			const body: any = {"publicKey":publicKey};;
-			const passKeyData = await fido2Create(body, username);
-			const passKeyBody: any = passKeyData;
-			const passKeyResponse = await POST('/register/finish', passKeyBody);
+			const respBody: any = response;
+			const asseResp = await startAuthentication(respBody);
+			const asseBody: any = asseResp;
+			const passKeyResponse = await POST('/verify-authentication', asseBody);
 			if(passKeyResponse?.ok){
-				const data = response.data;
-				if (!data) {
+				if (!passKeyResponse.verified) {
 					throw { data: { detail: 'Error during webAuthn' } };
 				}
 				return [passKeyResponse, null];
