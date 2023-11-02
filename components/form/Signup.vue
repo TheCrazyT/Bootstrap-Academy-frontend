@@ -252,14 +252,20 @@ export default defineComponent({
 			const [passKeyResponse, err] = await registerPassKey(form.name.value);
 			form.submitting = false;
 			if(passKeyResponse == null){
-				if(err){
-					openSnackbar('error', 'Error.' + err.code);
+				if(err && err.code){
+					if(err.code != 'ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED'){
+						console.log("error", err);
+						openSnackbar('error', 'Error.' + err.code);
+						return;
+					}
 				}else{
+					console.log("error", err);
 					openSnackbar('error', 'Error.InvalidWebauth');
+					return;
 				}
-				return;
 			}
 			form.usePassKey = true;
+			openSnackbar('success', 'Success.DeviceRegistered');
 		}
 
 		async function onclickSubmitForm() {

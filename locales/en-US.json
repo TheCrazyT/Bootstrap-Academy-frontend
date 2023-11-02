@@ -918,7 +918,8 @@
     "NewsLetterRegistration": "An email is sent to you with newsletter registration code.",
     "NewsletterSignup": "An email is sent to you with newsletter registration code. Go to My Accounts to complete newsletter registration.",
     "UnregisterFromNewsletter": "Successfully unregistered from newsletter",
-    "OAuthSuccess": "Your OAuth was successful. Now please add your account information to complete your signup process."
+    "OAuthSuccess": "Your OAuth was successful. Now please add your account information to complete your signup process.",
+    "DeviceRegistered": "Device configured successfully!"
   },
   "Error": {
     "Verdict": {

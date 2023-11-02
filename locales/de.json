@@ -918,7 +918,8 @@
     "NewsLetterRegistration": "Du bekommst von uns eine E-Mail mit dem Registrierungscode für den Newsletter.",
     "UnregisterFromNewsletter": "Erfolgreich vom Newsletter abgemeldet",
     "NewsletterSignup": "Du erhälst eine E-Mail mit dem Registrierungscode für den Newsletter. Geh in dein Konto, um die Newsletter-Registrierung abzuschließen.",
-    "OAuthSuccess": "Login mit OAuth war erfolgreich. Füge jetzt bitte deine Kontoinformationen hinzu, um deinen Anmeldevorgang abzuschließen."
+    "OAuthSuccess": "Login mit OAuth war erfolgreich. Füge jetzt bitte deine Kontoinformationen hinzu, um deinen Anmeldevorgang abzuschließen.",
+    "DeviceRegistered": "Gerät erfolgreich konfiguriert!"
   },
   "Error": {
     "Verdict": {
