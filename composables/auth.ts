@@ -129,9 +129,10 @@ export async function login(body: any) {
 
 export async function loginWithPassKey(username: string){
 	try {
-		const response = await GET(`/generate-registration-options?user={username}`);
-		if(response?.user){
-			const attResp  = await startAuthentication(response);
+		const response = await rawGET(`/generate-registration-options?user=${username}`);
+		if(response?.ok){
+			const data = response._data;
+			const attResp  = await startAuthentication(data);
 			const attBody:any = attResp;
 			const verificationResp = await POST('/verify-authentication', attBody);
 			if(verificationResp?.ok){
@@ -151,22 +152,19 @@ export async function loginWithPassKey(username: string){
 
 export async function registerPassKey(username: string) {
 	try {
-		const response = await GET(`/generate-registration-options?user={username}`);
-		if(response?.user){
-			const respBody: any = response;
+		const response = await rawGET(`/generate-registration-options?user=${username}`);
+		if(response?.ok){
+			const data = response._data;
+			const respBody: any = data;
 			const asseResp = await startRegistration(respBody);
 			const asseBody: any = asseResp;
 			const passKeyResponse = await POST('/verify-registration', asseBody);
-			if(passKeyResponse?.ok){
-				if (!passKeyResponse.verified) {
-					throw { data: { detail: 'Error during webAuthn (#1)' } };
-				}
-				return [passKeyResponse, null];
-			} else {
-				throw { data: { detail: 'Error during webAuthn (#2)' } };
+			if (!passKeyResponse.verified) {
+				throw { data: { detail: 'Error during webAuthn (#1)' } };
 			}
+			return [passKeyResponse, null];
 		} else {
-			throw { data: { detail: 'Error during webAuthn (#3)' } };
+			throw { data: { detail: 'Error during webAuthn (#2)' } };
 		}
 	} catch (error: any) {
 		return [null, error.data];

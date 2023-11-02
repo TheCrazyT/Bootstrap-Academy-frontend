@@ -249,7 +249,7 @@ export default defineComponent({
 		async function onUsePassKey() {
 			form.submitting = true;
 			form.usePassKey = false;
-			const [passKeyResponse, err] = await registerPassKey(form.name);
+			const [passKeyResponse, err] = await registerPassKey(form.name.value);
 			form.submitting = false;
 			if(passKeyResponse == null){
 				openSnackbar('error', 'Error.InvalidWebauth');

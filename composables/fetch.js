@@ -3,33 +3,45 @@ import { Mutex, Semaphore, withTimeout } from "async-mutex";
 
 export const mutex = new Mutex();
 
+export function rawGET(url) {
+  return createApiFetch(url, "GET", null, $fetch.raw);
+}
+
+export function rawPOST(url, body = null) {
+  return createApiFetch(url, "POST", body, $fetch.raw);
+}
+
 export function GET(url) {
-  return createApiFetch(url, "GET", null);
+  return createApiFetch(url, "GET", null, $fetch);
 }
 
 export function POST(url, body = null) {
-  return createApiFetch(url, "POST", body);
+  return createApiFetch(url, "POST", body, $fetch);
 }
 
 export function PATCH(url, body = null) {
-  return createApiFetch(url, "PATCH", body);
+  return createApiFetch(url, "PATCH", body, $fetch);
 }
 
 export function PUT(url, body = null) {
-  return createApiFetch(url, "PUT", body);
+  return createApiFetch(url, "PUT", body, $fetch);
 }
 
 export function DELETE(url, body = null) {
-  return createApiFetch(url, "DELETE", body);
+  return createApiFetch(url, "DELETE", body, $fetch);
 }
 
-async function createApiFetch(url, method, body) {
+async function createApiFetch(url, method, body, fetchMethod) {
   const config = useRuntimeConfig().public;
   const accessToken = getAccessToken();
 
-  return $fetch(url, {
+  return fetchMethod(url, {
     baseURL: config.BASE_API_URL,
     method: method,
+    // fixes problem with reading/writing cookies
+    // Server also needs to set "SameSite=None; HttpOnly" on the cookie
+    // along with some other cors-headers (see: https://stackoverflow.com/questions/56965476/cors-cookie-not-set-on-cross-domains-using-fetch-set-credentials-include-an)
+    credentials: 'include', 
     body: body,
     headers: {
       Authorization: `Bearer ${accessToken}`,
