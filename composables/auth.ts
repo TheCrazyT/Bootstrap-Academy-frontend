@@ -129,10 +129,9 @@ export async function login(body: any) {
 
 export async function loginWithPassKey(username: string){
 	try {
-		const response = await rawGET(`/generate-registration-options?user=${username}`);
-		if(response?.ok){
-			const data = response._data;
-			const attResp  = await startAuthentication(data);
+		const response = await GET(`/generate-registration-options?user=${username}`);
+		if(response?.user){
+			const attResp  = await startAuthentication(response);
 			const attBody:any = attResp;
 			const verificationResp = await POST('/verify-authentication', attBody);
 			if(verificationResp?.ok){
@@ -152,11 +151,9 @@ export async function loginWithPassKey(username: string){
 
 export async function registerPassKey(username: string) {
 	try {
-		const response = await rawGET(`/generate-registration-options?user=${username}`);
-		if(response?.ok){
-			const data = response._data;
-			const respBody: any = data;
-			const asseResp = await startRegistration(respBody);
+		const response = await GET(`/generate-registration-options?user=${username}`);
+		if(response?.user){
+			const asseResp = await startRegistration(response);
 			const asseBody: any = asseResp;
 			const passKeyResponse = await POST('/verify-registration', asseBody);
 			if (!passKeyResponse.verified) {

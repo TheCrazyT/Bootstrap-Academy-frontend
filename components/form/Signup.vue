@@ -44,6 +44,7 @@
 					@click="onUsePassKey()"
 					class="sm"
 				>
+					<CheckIcon v-if="form.usePassKey" class="w-5 h-5"/>
 					{{ t('Buttons.PassKey') }}
 				</InputBtn>
 			</div>
@@ -103,8 +104,10 @@ import { defineComponent, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useReCaptcha } from 'vue-recaptcha-v3';
 import type { IForm } from '~/types/form';
+import { CheckIcon } from "@heroicons/vue/24/outline";
 
 export default defineComponent({
+	components: { CheckIcon },
 	setup() {
 		const { t } = useI18n();
 
@@ -155,10 +158,7 @@ export default defineComponent({
 				valid: true,
 				value: null,
 			},
-			usePassKey: {
-				value: false,
-				valid: false
-			},
+			usePassKey: false,
 			termsAndConditions: {
 				value: false,
 				valid: false,
