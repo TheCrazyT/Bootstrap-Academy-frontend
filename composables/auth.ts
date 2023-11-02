@@ -129,20 +129,19 @@ export async function login(body: any) {
 
 export async function loginWithPassKey(username: string){
 	try {
-		const body: any = {username: username};
-		const response = await POST('/generate-registration-options', body);
-		if(response?.ok){
-			const attResp  = await startRegistration(response);
+		const response = await GET(`/generate-registration-options?user={username}`);
+		if(response?.user){
+			const attResp  = await startAuthentication(response);
 			const attBody:any = attResp;
-			const verificationResp = await POST('/verify-registration', attBody);
+			const verificationResp = await POST('/verify-authentication', attBody);
 			if(verificationResp?.ok){
 				if (!verificationResp.verified) {
-					throw { data: { detail: 'Error during webAuthn' } };
+					throw { data: { detail: 'Error during webAuthn (#1)' } };
 				}
 				return [response, null];
 			}
 		} else {
-			throw { data: { detail: 'Error during webAuthn' } };
+			throw { data: { detail: 'Error during webAuthn (#2)' } };
 		}
 		return [null, null];
 	} catch (error: any) {
@@ -152,23 +151,22 @@ export async function loginWithPassKey(username: string){
 
 export async function registerPassKey(username: string) {
 	try {
-		const body: any = {"username":username};
-		const response = await POST('/generate-authentication-options', body);
-		if(response?.ok){
+		const response = await GET(`/generate-registration-options?user={username}`);
+		if(response?.user){
 			const respBody: any = response;
-			const asseResp = await startAuthentication(respBody);
+			const asseResp = await startRegistration(respBody);
 			const asseBody: any = asseResp;
-			const passKeyResponse = await POST('/verify-authentication', asseBody);
+			const passKeyResponse = await POST('/verify-registration', asseBody);
 			if(passKeyResponse?.ok){
 				if (!passKeyResponse.verified) {
-					throw { data: { detail: 'Error during webAuthn' } };
+					throw { data: { detail: 'Error during webAuthn (#1)' } };
 				}
 				return [passKeyResponse, null];
 			} else {
-				throw { data: { detail: 'Error during webAuthn' } };
+				throw { data: { detail: 'Error during webAuthn (#2)' } };
 			}
 		} else {
-			throw { data: { detail: 'Error during webAuthn' } };
+			throw { data: { detail: 'Error during webAuthn (#3)' } };
 		}
 	} catch (error: any) {
 		return [null, error.data];
