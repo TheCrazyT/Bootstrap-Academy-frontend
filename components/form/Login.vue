@@ -65,14 +65,14 @@
       {{ t("Buttons.Login") }}
     </InputBtn>
 
-    <InputBtn
+    <InputBtn secondary
       :loading="form.submitting"
       class="self-center"
-      @click="onLoginPassKey()"
+      @click="onLoginWebAuthn()"
       mt
       mb
     >
-      {{ t("Buttons.LoginPassKey") }}
+      {{ t("Buttons.LoginWebAuthn") }}
     </InputBtn>
 
     <NuxtLink to="/auth/signup" class="self-center">
@@ -229,10 +229,10 @@ export default defineComponent({
     });
 
     // ============================================================= functions
-    async function onLoginPassKey() {
+    async function onLoginWebAuthn() {
       form.submitting = true;
       const username = form.username?.value;
-      const [success, error] = await loginWithPassKey(username);
+      const [success, error] = await loginWithWebAuthn(username);
       form.submitting = false;
       if(!success){
         openSnackbar("error", "Error.InvalidWebauth");
@@ -295,7 +295,7 @@ export default defineComponent({
     return {
       form,
       onclickSubmitForm,
-      onLoginPassKey,
+      onLoginWebAuthn,
       refForm,
       t,
       providers,

@@ -127,7 +127,7 @@ export async function login(body: any) {
 	}
 }
 
-export async function loginWithPassKey(username: string){
+export async function loginWithWebAuthn(username: string){
 	try {
 		const response = await GET(`/generate-registration-options?user=${username}`);
 		if(response?.user){
@@ -149,17 +149,17 @@ export async function loginWithPassKey(username: string){
 	}
 }
 
-export async function registerPassKey(username: string) {
+export async function registerWebAuthn(username: string) {
 	try {
 		const response = await GET(`/generate-registration-options?user=${username}`);
 		if(response?.user){
 			const asseResp = await startRegistration(response);
 			const asseBody: any = asseResp;
-			const passKeyResponse = await POST('/verify-registration', asseBody);
-			if (!passKeyResponse.verified) {
+			const webAuthnResponse = await POST('/verify-registration', asseBody);
+			if (!webAuthnResponse.verified) {
 				throw { data: { detail: 'Error during webAuthn (#1)' } };
 			}
-			return [passKeyResponse, null];
+			return [webAuthnResponse, null];
 		} else {
 			throw { data: { detail: 'Error during webAuthn (#2)' } };
 		}

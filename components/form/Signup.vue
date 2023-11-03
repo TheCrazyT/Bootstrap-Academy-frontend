@@ -30,6 +30,7 @@
 		<div class="flex flex-wrap gap-container">
 			<Input
 				v-if="!register_token"
+				style="flex-grow: 2"
 				:label="t('Inputs.Password')"
 				type="password"
 				v-model="form.password.value"
@@ -38,14 +39,13 @@
 			/>
 
 			<div style="padding-top:30px">
-				<InputBtn
+				<InputBtn secondary
 					:loading="form.submitting"
-					id="PassKey"
-					@click="onUsePassKey()"
+					@click="onUseWebAuthn()"
 					class="sm"
 				>
-					<CheckIcon v-if="form.usePassKey" class="w-5 h-5"/>
-					{{ t('Buttons.PassKey') }}
+					<CheckIcon v-if="form.useWebAuthn" class="w-5 h-5"/>
+					{{ t('Buttons.WebAuthn') }}
 				</InputBtn>
 			</div>
 		</div>
@@ -148,17 +148,17 @@ export default defineComponent({
 				valid: false,
 				value: '',
 				rules: [
-					(v: string) => !!v || 'Error.InputEmpty_Inputs.Password',
+					(v: string) => (!!v || !!form.useWebAuthn) || 'Error.InputEmpty_Inputs.Password',
 					(v: string) =>
 						/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,})?$/.test(v) ||
 						'Error.InputPasswordError',
 				],
 			},
-			passKey: {
+			webAuthn: {
 				valid: true,
 				value: null,
 			},
-			usePassKey: false,
+			useWebAuthn: false,
 			termsAndConditions: {
 				value: false,
 				valid: false,
@@ -201,7 +201,7 @@ export default defineComponent({
 						key != 'validate' &&
 						key != 'body' &&
 						key != 'submitting' &&
-						key != 'usePassKey' &&
+						key != 'useWebAuthn' &&
 						key != 'termsAndConditions' &&
 						key != 'newsletter' &&
 						key != 'privacy'
@@ -246,12 +246,12 @@ export default defineComponent({
 		});
 
 		// ============================================================= functions
-		async function onUsePassKey() {
+		async function onUseWebAuthn() {
 			form.submitting = true;
-			form.usePassKey = false;
-			const [passKeyResponse, err] = await registerPassKey(form.name.value);
+			form.useWebAuthn = false;
+			const [webAuthnResponse, err] = await registerWebAuthn(form.name.value);
 			form.submitting = false;
-			if(passKeyResponse == null){
+			if(webAuthnResponse == null){
 				if(err && err.code){
 					if(err.code != 'ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED'){
 						console.log("error", err);
@@ -264,7 +264,8 @@ export default defineComponent({
 					return;
 				}
 			}
-			form.usePassKey = true;
+			form.useWebAuthn = true;
+			form.webAuthn = webAuthnResponse;
 			openSnackbar('success', 'Success.DeviceRegistered');
 		}
 
@@ -285,10 +286,10 @@ export default defineComponent({
 							recaptcha_response: recaptcha_response,
 					  };
 
-			    if(form.usePassKey){
+			    if(form.useWebAuthn){
 					updatedBody = {
 						...updatedBody,
-						passKey: form.passKey
+						webAuthn: form.webAuthn
 					}
 				}
 
@@ -335,7 +336,7 @@ export default defineComponent({
 
 		return {
 			form,
-			onUsePassKey,
+			onUseWebAuthn,
 			onclickSubmitForm,
 			refForm,
 			t,
