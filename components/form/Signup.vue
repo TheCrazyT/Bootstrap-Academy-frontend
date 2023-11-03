@@ -249,15 +249,13 @@ export default defineComponent({
 		async function onUseWebAuthn() {
 			form.submitting = true;
 			form.useWebAuthn = false;
-			const [webAuthnResponse, err] = await registerWebAuthn(form.name.value);
+			const [success, err] = await registerWebAuthn(form.name.value);
 			form.submitting = false;
-			if(webAuthnResponse == null){
+			if(!success){
 				if(err && err.code){
-					if(err.code != 'ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED'){
-						console.log("error", err);
-						openSnackbar('error', 'Error.' + err.code);
-						return;
-					}
+					console.log("error", err);
+					openSnackbar('error', 'Error.' + err.code);
+					return;
 				}else{
 					console.log("error", err);
 					openSnackbar('error', 'Error.InvalidWebauth');
@@ -265,7 +263,6 @@ export default defineComponent({
 				}
 			}
 			form.useWebAuthn = true;
-			form.webAuthn = webAuthnResponse;
 			openSnackbar('success', 'Success.DeviceRegistered');
 		}
 
