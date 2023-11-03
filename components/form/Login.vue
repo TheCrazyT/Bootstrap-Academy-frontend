@@ -231,12 +231,15 @@ export default defineComponent({
     // ============================================================= functions
     async function onLoginWebAuthn() {
       form.submitting = true;
-      const username = form.username?.value;
-      const [success, error] = await loginWithWebAuthn(username);
+      const name_or_email = form.name_or_email?.value;
+      const [success, error] = await loginWithWebAuthn(name_or_email);
       form.submitting = false;
       if(!success){
+        console.log("error", error);
         openSnackbar("error", "Error.InvalidWebauth");
+        return;
       }
+      successHandler(success);
       // TODO
     }
 

@@ -148,7 +148,7 @@ export default defineComponent({
 				valid: false,
 				value: '',
 				rules: [
-					(v: string) => (!!v || !!form.useWebAuthn) || 'Error.InputEmpty_Inputs.Password',
+					(v: string): string => (!!v || form?.useWebAuthn) || 'Error.InputEmpty_Inputs.Password',
 					(v: string) =>
 						/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,})?$/.test(v) ||
 						'Error.InputPasswordError',
@@ -249,15 +249,15 @@ export default defineComponent({
 		async function onUseWebAuthn() {
 			form.submitting = true;
 			form.useWebAuthn = false;
-			const [success, err] = await registerWebAuthn(form.name.value);
+			const [success, error] = await registerWebAuthn(form.name.value);
 			form.submitting = false;
 			if(!success){
-				if(err && err.code){
-					console.log("error", err);
-					openSnackbar('error', 'Error.' + err.code);
+				if(error && error.code){
+					console.log("error", error);
+					openSnackbar('error', 'Error.' + error.code);
 					return;
 				}else{
-					console.log("error", err);
+					console.log("error", error);
 					openSnackbar('error', 'Error.InvalidWebauth');
 					return;
 				}

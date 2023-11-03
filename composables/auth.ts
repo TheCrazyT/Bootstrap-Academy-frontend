@@ -129,17 +129,17 @@ export async function login(body: any) {
 
 export async function loginWithWebAuthn(username: string){
 	try {
-		const response = await GET(`/generate-registration-options?user=${username}`);
-		if(response?.user){
+		const response = await GET(`/generate-authentication-options?user=${username}`);
+		if(response?.challenge){
 			const attResp  = await startAuthentication(response);
 			const attBody:any = attResp;
 			const verificationResp = await POST('/verify-authentication', attBody);
-			if(verificationResp?.ok){
-				if (!verificationResp.verified) {
-					throw { data: { detail: 'Not verified!' } };
-				}
-				return [true, null];
+			if (!verificationResp.verified) {
+				throw { data: { detail: 'Not verified!' } };
 			}
+			//TODO: verificationResp should contain info about the login
+			setStates(verificationResp);
+			return [true, null];
 		} else {
 			throw { data: { detail: 'Unknown error during webAuthn' } };
 		}
