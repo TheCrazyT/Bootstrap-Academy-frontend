@@ -129,11 +129,11 @@ export async function login(body: any) {
 
 export async function loginWithWebAuthn(username: string){
 	try {
-		const response = await GET(`/generate-authentication-options?user=${username}`);
+		const response = await GET(`/auth/generate-authentication-options?user=${username}`);
 		if(response?.challenge){
 			const attResp  = await startAuthentication(response);
 			const attBody:any = attResp;
-			const verificationResp = await POST('/verify-authentication', attBody);
+			const verificationResp = await POST('/auth/verify-authentication', attBody);
 			if (!verificationResp.verified) {
 				throw { data: { detail: 'Not verified!' } };
 			}
@@ -152,7 +152,7 @@ export async function loginWithWebAuthn(username: string){
 export async function registerWebAuthn(username: string) {
 	let response;
 	try {
-		response = await GET(`/generate-registration-options?user=${username}`);
+		response = await GET(`/auth/generate-registration-options?user=${username}`);
 	} catch (error: any) {
 		return [false, error];
 	}
@@ -160,7 +160,7 @@ export async function registerWebAuthn(username: string) {
 		if(response?.user){
 			const webAuthnResponse = await startRegistration(response);
 			const asseBody: any = webAuthnResponse;
-			const verifyResponse = await POST('/verify-registration', asseBody);
+			const verifyResponse = await POST('/auth/verify-registration', asseBody);
 			if (!verifyResponse.verified) {
 				throw { data: { detail: 'Not verified!' } };
 			}

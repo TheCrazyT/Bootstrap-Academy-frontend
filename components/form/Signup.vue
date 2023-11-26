@@ -185,6 +185,7 @@ export default defineComponent({
 						key != 'body' &&
 						key != 'submitting' &&
 						key != 'newsletter' &&
+						key != 'useWebAuthn' &&
 						!form[key].valid
 					) {
 						isValid = false;
