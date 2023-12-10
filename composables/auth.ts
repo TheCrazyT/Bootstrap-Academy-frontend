@@ -133,8 +133,9 @@ export async function loginWithWebAuthn(username: string){
 		if(response?.challenge){
 			const attResp  = await startAuthentication(response);
 			const attBody:any = attResp;
+			delete attBody.clientExtensionResults;
 			const verificationResp = await POST('/auth/verify-authentication', attBody);
-			if (!verificationResp.verified) {
+			if (!verificationResp.credentialId) {
 				throw { data: { detail: 'Not verified!' } };
 			}
 			//TODO: verificationResp should contain info about the login
