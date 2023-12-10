@@ -160,8 +160,12 @@ export async function registerWebAuthn(username: string) {
 		if(response?.user){
 			const webAuthnResponse = await startRegistration(response);
 			const asseBody: any = webAuthnResponse;
+			delete asseBody.response.authenticatorData;
+			delete asseBody.response.publicKey;
+			delete asseBody.response.publicKeyAlgorithm;
+			delete asseBody.clientExtensionResults;
 			const verifyResponse = await POST('/auth/verify-registration', asseBody);
-			if (!verifyResponse.verified) {
+			if (!verifyResponse.userVerified) {
 				throw { data: { detail: 'Not verified!' } };
 			}
 			return [true, null];
