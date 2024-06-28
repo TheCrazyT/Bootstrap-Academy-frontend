@@ -1,102 +1,102 @@
 <template>
-	<form
-		class="flex flex-col gap-box"
-		:class="{ 'form-submitting': form.submitting }"
-		@submit.prevent="onclickSubmitForm()"
-		ref="refForm"
-	>
-		<Input
-			:label="t('Inputs.Nickname')"
-			v-model="form.name.value"
-			@valid="form.name.valid = $event"
-			:rules="form.name.rules"
-		/>
+  <form
+    class="flex flex-col gap-box"
+    :class="{ 'form-submitting': form.submitting }"
+    @submit.prevent="onclickSubmitForm()"
+    ref="refForm"
+  >
+    <Input
+      :label="t('Inputs.Nickname')"
+      v-model="form.name.value"
+      @valid="form.name.valid = $event"
+      :rules="form.name.rules"
+    />
 
-		<Input
-			:label="t('Inputs.Name')"
-			v-model="form.display_name.value"
-			@valid="form.display_name.valid = $event"
-			:rules="form.display_name.rules"
-		/>
+    <Input
+      :label="t('Inputs.Name')"
+      v-model="form.display_name.value"
+      @valid="form.display_name.valid = $event"
+      :rules="form.display_name.rules"
+    />
 
-		<Input
-			:label="t('Inputs.EmailAddress')"
-			type="email"
-			v-model="form.email.value"
-			@valid="form.email.valid = $event"
-			:rules="form.email.rules"
-		/>
+    <Input
+      :label="t('Inputs.EmailAddress')"
+      type="email"
+      v-model="form.email.value"
+      @valid="form.email.valid = $event"
+      :rules="form.email.rules"
+    />
 
-		<div class="flex flex-wrap gap-container">
-			<Input
-				v-if="!register_token"
-				style="flex-grow: 2"
-				:label="t('Inputs.Password')"
-				type="password"
-				v-model="form.password.value"
-				@valid="form.password.valid = $event"
-				:rules="form.password.rules"
-			/>
+    <div class="flex flex-wrap gap-container">
+      <Input
+        v-if="!register_token"
+        style="flex-grow: 2"
+        :label="t('Inputs.Password')"
+        type="password"
+        v-model="form.password.value"
+        @valid="form.password.valid = $event"
+        :rules="form.password.rules"
+      />
 
-			<div style="padding-top:30px">
-				<InputBtn secondary
-					:loading="form.submitting"
-					@click="onUseWebAuthn()"
-					class="sm"
-				>
-					<CheckIcon v-if="form.useWebAuthn" class="w-5 h-5"/>
-					{{ t('Buttons.WebAuthn') }}
-				</InputBtn>
-			</div>
-		</div>
+      <div style="padding-top:30px">
+        <InputBtn secondary
+          :loading="form.submitting"
+          @click="onUseWebAuthn()"
+          class="sm"
+        >
+          <CheckIcon v-if="form.useWebAuthn" class="w-5 h-5"/>
+          {{ t('Buttons.WebAuthn') }}
+        </InputBtn>
+      </div>
+    </div>
 
-		<InputCheckbox
-			label="Links.IAgreeTo"
-			id="TermsAndConditions"
-			:link="{
-				to: '/docs/terms-and-conditions',
-				label: 'Links.TermsAndConditions',
-			}"
-			target="_blank"
-			required
-			v-model="form.termsAndConditions.value"
-			@valid="form.termsAndConditions.valid = $event"
-		/>
+    <InputCheckbox
+      label="Links.IAgreeTo"
+      id="TermsAndConditions"
+      :link="{
+        to: '/docs/terms-and-conditions',
+        label: 'Links.TermsAndConditions',
+      }"
+      target="_blank"
+      required
+      v-model="form.termsAndConditions.value"
+      @valid="form.termsAndConditions.valid = $event"
+    />
 
-		<InputCheckbox
-			label="Links.IAgreeTo"
-			id="privacy"
-			:link="{
-				to: '/docs/privacy',
-				label: 'Links.Privacy',
-			}"
-			target="_blank"
-			required
-			v-model="form.privacy.value"
-			@valid="form.privacy.valid = $event"
-		/>
+    <InputCheckbox
+      label="Links.IAgreeTo"
+      id="privacy"
+      :link="{
+        to: '/docs/privacy',
+        label: 'Links.Privacy',
+      }"
+      target="_blank"
+      required
+      v-model="form.privacy.value"
+      @valid="form.privacy.valid = $event"
+    />
 
-		<InputCheckbox
-			id="Newsletter"
-			label="Links.Newsletter"
-			v-model="form.newsletter.value"
-		/>
+    <InputCheckbox
+      id="Newsletter"
+      label="Links.Newsletter"
+      v-model="form.newsletter.value"
+    />
 
-		<InputBtn
-			:loading="form.submitting"
-			class="self-center"
-			@click="onclickSubmitForm()"
-			mb
-			mt
-		>
-			{{ t('Buttons.CreateAccount') }}
-		</InputBtn>
+    <InputBtn
+      :loading="form.submitting"
+      class="self-center"
+      @click="onclickSubmitForm()"
+      mb
+      mt
+    >
+      {{ t('Buttons.CreateAccount') }}
+    </InputBtn>
 
-		<NuxtLink to="/auth/login" class="self-center">
-			{{ t('Links.AlreadyHaveAccount') }}
-			<span class="text-accent">{{ t('Links.GoToLogin') }}</span>
-		</NuxtLink>
-	</form>
+    <NuxtLink to="/auth/login" class="self-center">
+      {{ t('Links.AlreadyHaveAccount') }}
+      <span class="text-accent">{{ t('Links.GoToLogin') }}</span>
+    </NuxtLink>
+  </form>
 </template>
 
 <script lang="ts">
@@ -151,14 +151,14 @@ export default defineComponent({
           (v: string): string => (!!v || form?.useWebAuthn) || 'Error.InputEmpty_Inputs.Password',
           (v: string) =>
             /^((?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,})?$/.test(v) ||
-						'Error.InputPasswordError',
+            'Error.InputPasswordError',
         ],
       },
       webAuthn: {
-	      valid: true,
-		    value: null,
-	    },
-	    useWebAuthn: false,
+        valid: true,
+        value: null,
+      },
+      useWebAuthn: false,
       termsAndConditions: {
         value: false,
         valid: false,
@@ -182,11 +182,11 @@ export default defineComponent({
         for (const key in form) {
           if (
             key != 'validate' &&
-						key != 'body' &&
-						key != 'submitting' &&
-						key != 'newsletter' &&
-						key != 'useWebAuthn' &&
-						!form[key].valid
+            key != 'body' &&
+            key != 'submitting' &&
+            key != 'newsletter' &&
+            key != 'useWebAuthn' &&
+            !form[key].valid
           ) {
             isValid = false;
           }
@@ -200,12 +200,12 @@ export default defineComponent({
         for (const key in form) {
           if (
             key != 'validate' &&
-						key != 'body' &&
-						key != 'submitting' &&
-						key != 'useWebAuthn' &&
-						key != 'termsAndConditions' &&
-						key != 'newsletter' &&
-						key != 'privacy'
+            key != 'body' &&
+            key != 'submitting' &&
+            key != 'useWebAuthn' &&
+            key != 'termsAndConditions' &&
+            key != 'newsletter' &&
+            key != 'privacy'
           )
             obj[key] = form[key].value;
         }
@@ -247,25 +247,25 @@ export default defineComponent({
     });
 
     // ============================================================= functions
-		async function onUseWebAuthn() {
-			form.submitting = true;
-			form.useWebAuthn = false;
-			const [success, error] = await registerWebAuthn(form.name.value);
-			form.submitting = false;
-			if(!success){
-				if(error && error.code){
-					console.log("error", error);
-					openSnackbar('error', 'Error.' + error.code);
-					return;
-				}else{
-					console.log("error", error);
-					openSnackbar('error', 'Error.InvalidWebauth');
-					return;
-				}
-			}
-			form.useWebAuthn = true;
-			openSnackbar('success', 'Success.DeviceRegistered');
-		}
+    async function onUseWebAuthn() {
+      form.submitting = true;
+      form.useWebAuthn = false;
+      const [success, error] = await registerWebAuthn(form.name.value);
+      form.submitting = false;
+      if(!success){
+        if(error && error.code){
+          console.log("error", error);
+          openSnackbar('error', 'Error.' + error.code);
+          return;
+        }else{
+          console.log("error", error);
+          openSnackbar('error', 'Error.InvalidWebauth');
+          return;
+        }
+      }
+      form.useWebAuthn = true;
+      openSnackbar('success', 'Success.DeviceRegistered');
+    }
 
     async function onclickSubmitForm() {
       if (form.validate()) {
@@ -278,18 +278,18 @@ export default defineComponent({
             ...form.body(),
             recaptcha_response: recaptcha_response,
             oauth_register_token: register_token.value,
-					  }
+            }
           : {
             ...form.body(),
             recaptcha_response: recaptcha_response,
-					  };
+            };
 
-			  if(form.useWebAuthn){
-					updatedBody = {
-						...updatedBody,
-						webAuthn: form.webAuthn
-					}
-				}
+        if(form.useWebAuthn){
+          updatedBody = {
+            ...updatedBody,
+            webAuthn: form.webAuthn
+          }
+        }
 
         const [success, error] = await signup(updatedBody);
         if (!!success) await requestEmailVerification();
@@ -334,7 +334,7 @@ export default defineComponent({
 
     return {
       form,
-			onUseWebAuthn,
+      onUseWebAuthn,
       onclickSubmitForm,
       refForm,
       t,

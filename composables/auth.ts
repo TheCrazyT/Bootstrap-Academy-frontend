@@ -128,58 +128,58 @@ export async function login(body: any) {
 }
 
 export async function loginWithWebAuthn(username: string){
-	try {
-		const response = await GET(`/auth/generate-authentication-options?user=${username}`);
-		if(response?.challenge){
-			const attResp  = await startAuthentication(response);
-			const attBody:any = attResp;
-			delete attBody.clientExtensionResults;
-			const verificationResp = await POST('/auth/verify-authentication', attBody);
-			if (!verificationResp.credentialId) {
-				throw { data: { detail: 'Not verified!' } };
-			}
-			//TODO: verificationResp should contain info about the login
-			setStates(verificationResp);
-			return [true, null];
-		} else {
-			throw { data: { detail: 'Unknown error during webAuthn' } };
-		}
-		return [false, null];
-	} catch (error: any) {
-		return [false, error];
-	}
+  try {
+    const response = await GET(`/auth/generate-authentication-options?user=${username}`);
+    if(response?.challenge){
+      const attResp  = await startAuthentication(response);
+      const attBody:any = attResp;
+      delete attBody.clientExtensionResults;
+      const verificationResp = await POST('/auth/verify-authentication', attBody);
+      if (!verificationResp.credentialId) {
+        throw { data: { detail: 'Not verified!' } };
+      }
+      //TODO: verificationResp should contain info about the login
+      setStates(verificationResp);
+      return [true, null];
+    } else {
+      throw { data: { detail: 'Unknown error during webAuthn' } };
+    }
+    return [false, null];
+  } catch (error: any) {
+    return [false, error];
+  }
 }
 
 export async function registerWebAuthn(username: string) {
-	let response;
-	try {
-		response = await GET(`/auth/generate-registration-options?user=${username}`);
-	} catch (error: any) {
-		return [false, error];
-	}
-	try {
-		if(response?.user){
-			const webAuthnResponse = await startRegistration(response);
-			const asseBody: any = webAuthnResponse;
-			delete asseBody.response.authenticatorData;
-			delete asseBody.response.publicKey;
-			delete asseBody.response.publicKeyAlgorithm;
-			delete asseBody.clientExtensionResults;
-			const verifyResponse = await POST('/auth/verify-registration', asseBody);
-			if (!verifyResponse.userVerified) {
-				throw { data: { detail: 'Not verified!' } };
-			}
-			return [true, null];
-		} else {
-			throw { data: { detail: 'Unknown error during webAuthn' } };
-		}
-	} catch (error: any) {
-		if(error.code == 'ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED'){
-			// not an actual error, this can happen if you already registered the device once ...
-			return [true, error];
-		}
-		return [false, error];
-	}
+  let response;
+  try {
+    response = await GET(`/auth/generate-registration-options?user=${username}`);
+  } catch (error: any) {
+    return [false, error];
+  }
+  try {
+    if(response?.user){
+      const webAuthnResponse = await startRegistration(response);
+      const asseBody: any = webAuthnResponse;
+      delete asseBody.response.authenticatorData;
+      delete asseBody.response.publicKey;
+      delete asseBody.response.publicKeyAlgorithm;
+      delete asseBody.clientExtensionResults;
+      const verifyResponse = await POST('/auth/verify-registration', asseBody);
+      if (!verifyResponse.userVerified) {
+        throw { data: { detail: 'Not verified!' } };
+      }
+      return [true, null];
+    } else {
+      throw { data: { detail: 'Unknown error during webAuthn' } };
+    }
+  } catch (error: any) {
+    if(error.code == 'ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED'){
+      // not an actual error, this can happen if you already registered the device once ...
+      return [true, error];
+    }
+    return [false, error];
+  }
  }
  
  export async function signup(body: any) {
