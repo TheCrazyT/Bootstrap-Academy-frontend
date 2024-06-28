@@ -71,12 +71,16 @@
                 !!submission.result.compile.stderr
               "
             >
-              <p class="text-sm bg-light p-2 rounded-md">{{ submission.result.compile.stderr }}</p>
+              <p class="text-sm bg-light p-2 rounded-md">
+                {{ submission.result.compile.stderr }}
+              </p>
             </div>
             <div
               v-if="!!submission.result.run && !!submission.result.run.stderr"
             >
-              <p class="text-sm bg-light p-2 rounded-md">{{ submission.result.run.stderr }}</p>
+              <p class="text-sm bg-light p-2 rounded-md">
+                {{ submission.result.run.stderr }}
+              </p>
             </div>
             <p
               v-if="
@@ -112,7 +116,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import type { PropType } from "vue";
 import { CodeBracketIcon, CheckBadgeIcon } from "@heroicons/vue/24/solid";
 import { useCodingSubmissions } from "~~/composables/codingChallenges";
 import { useDateFormat } from "@vueuse/core";
@@ -141,37 +144,37 @@ export default defineComponent({
       let toReturnVerdict: string | any = "";
 
       switch (verdict) {
-        case "COMPILATION_ERROR":
-          toReturnVerdict = "Error.Verdict.COMPILATION_ERROR";
-          break;
-        case "INVALID_OUTPUT_FORMAT":
-          toReturnVerdict = "Error.Verdict.INVALID_OUTPUT_FORMAT";
-          break;
-        case "MEMORY_LIMIT_EXCEEDED":
-          toReturnVerdict = "Error.Verdict.MEMORY_LIMIT_EXCEEDED";
-          break;
-        case "NO_OUTPUT":
-          toReturnVerdict = "Error.Verdict.NO_OUTPUT";
-          break;
-        case "OK":
-          toReturnVerdict = "Error.Verdict.OK";
-          break;
-        case "PRE_CHECK_FAILED":
-          toReturnVerdict = "Error.Verdict.PRE_CHECK_FAILED";
-          break;
-        case "RUNTIME_ERROR":
-          toReturnVerdict = "Error.Verdict.RUNTIME_ERROR";
-          break;
-        case "TIME_LIMIT_EXCEEDED":
-          toReturnVerdict = "Error.Verdict.TIME_LIMIT_EXCEEDED";
-          break;
-        case "WRONG_ANSWER":
-          toReturnVerdict = "Error.Verdict.WRONG_ANSWER";
-          break;
+      case "COMPILATION_ERROR":
+        toReturnVerdict = "Error.Verdict.COMPILATION_ERROR";
+        break;
+      case "INVALID_OUTPUT_FORMAT":
+        toReturnVerdict = "Error.Verdict.INVALID_OUTPUT_FORMAT";
+        break;
+      case "MEMORY_LIMIT_EXCEEDED":
+        toReturnVerdict = "Error.Verdict.MEMORY_LIMIT_EXCEEDED";
+        break;
+      case "NO_OUTPUT":
+        toReturnVerdict = "Error.Verdict.NO_OUTPUT";
+        break;
+      case "OK":
+        toReturnVerdict = "Error.Verdict.OK";
+        break;
+      case "PRE_CHECK_FAILED":
+        toReturnVerdict = "Error.Verdict.PRE_CHECK_FAILED";
+        break;
+      case "RUNTIME_ERROR":
+        toReturnVerdict = "Error.Verdict.RUNTIME_ERROR";
+        break;
+      case "TIME_LIMIT_EXCEEDED":
+        toReturnVerdict = "Error.Verdict.TIME_LIMIT_EXCEEDED";
+        break;
+      case "WRONG_ANSWER":
+        toReturnVerdict = "Error.Verdict.WRONG_ANSWER";
+        break;
 
-        default:
-          toReturnVerdict = "No_Output";
-          break;
+      default:
+        toReturnVerdict = "No_Output";
+        break;
       }
       return toReturnVerdict;
     };

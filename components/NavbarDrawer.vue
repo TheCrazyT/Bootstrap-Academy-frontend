@@ -12,7 +12,7 @@
 					<NuxtLink to="/" class="flex gap-card-sm items-center">
 						<img
 							src="/images/logo-text.png"
-							alt="Bootstrap Academy logo"
+							:alt="t('AltAttributes.BootstrapAcademyLogo')"
 							class="object-contain w-28 cursor-pointer"
 						/>
 					</NuxtLink>
@@ -40,26 +40,26 @@ import { Bars3Icon } from '@heroicons/vue/24/solid';
 import { useI18n } from 'vue-i18n';
 
 export default {
-	components: { Bars3Icon },
-	props: {
-		links: { default: [] },
-	},
-	setup() {
-		const { t } = useI18n();
+  components: { Bars3Icon },
+  props: {
+    links: { default: [] },
+  },
+  setup() {
+    const { t } = useI18n();
 
-		const show = ref(false);
+    const show = ref(false);
 
-		function closeMenu() {
-			setTimeout(() => {
-				show.value = false;
-			}, 100);
-		}
-		function toggleMenu() {
-			show.value = !show.value;
-		}
+    function closeMenu() {
+      setTimeout(() => {
+        show.value = false;
+      }, 100);
+    }
+    function toggleMenu() {
+      show.value = !show.value;
+    }
 
-		return { show, closeMenu, toggleMenu, Bars3Icon, t };
-	},
+    return { show, closeMenu, toggleMenu, Bars3Icon, t };
+  },
 };
 </script>
 

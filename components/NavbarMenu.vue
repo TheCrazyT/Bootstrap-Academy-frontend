@@ -17,7 +17,7 @@
         <img
           @click="toggleMenu"
           :src="image"
-          alt="user image"
+          :alt="t('AltAttributes.UserAvatar')"
           class="min-w-[2.5rem] min-h-[2.5rem] w-10 h-10 object-cover rounded-full"
         />
       </div>
@@ -50,6 +50,7 @@ import {
   SparklesIcon,
   CheckBadgeIcon,
 } from "@heroicons/vue/24/solid";
+import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useNow, useDateFormat } from "@vueuse/core";
 import { usePremiumInfo } from "~~/composables/premiumFeature";
@@ -63,6 +64,7 @@ export default {
     const isPremium = computed(() => {
       return premiumInfo.value?.premium;
     });
+    const router = useRouter();
     let links = [
       {
         label: "Links.MyProfile",
@@ -109,7 +111,11 @@ export default {
       show.value = !show.value;
     }
     async function onclickLogout() {
-      await logout();
+      try {
+        await logout();
+        // console.log("back");
+        // router.push("/auth/login");
+      } catch (error) {}
     }
 
     const user = useUser();

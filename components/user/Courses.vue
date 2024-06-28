@@ -22,13 +22,13 @@
 
 				<template v-else-if="courses && courses.length > 0">
 					<NuxtLink
-						v-for="(course, i) of courses"
 						:key="i"
-						:to="`/courses/${course.id}`"
+						v-for="(course, i) of courses"
 						:class="{
 							'md:row-span-2 md:col-span-2': i == 0 && courses.length > 3,
 						}"
 						class="flex-shrink-0 snap-center cursor-pointer"
+						@click="watchUnseenLecture(course)"
 					>
 						<CourseCardSm :data="course" />
 					</NuxtLink>
@@ -43,40 +43,52 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { Course, GetUnseenLectureResponse, Section } from '~/types/courseTypes';
 
 export default defineComponent({
-	setup() {
-		const { t } = useI18n();
+  setup() {
+    const { t } = useI18n();
+    const router = useRouter();
+    const loading = ref(true);
 
-		const loading = ref(true);
+    const myCourses = useMyCourses();
 
-		const myCourses = useMyCourses();
+    const courses = computed((): Course[] => {
+      return myCourses.value.slice(0, 5);
+    });
+    const header = reactive({
+      heading: "Headings.WatchedCourses",
+      body: "Body.WatchedCourses",
+      link: { to: "/profile/courses", text: "Buttons.ViewAll" },
+    });
 
-		const courses = computed((): any[] => {
-			return myCourses.value.slice(0, 5);
-		});
+    onMounted(async () => {
+      await getMyCourses();
+      loading.value = false;
 
-		const header = reactive({
-			heading: 'Headings.WatchedCourses',
-			body: 'Body.WatchedCourses',
-			link: { to: '/profile/courses', text: 'Buttons.ViewAll' },
-		});
+      if (courses.value && courses.value.length <= 0) {
+        Object.assign(header, {
+          heading: "EmptyStates.CourseCardSM.Heading",
+          body: "EmptyStates.CourseCardSM.Body",
+          link: { to: "/profile/courses", text: "Buttons.ViewAll" },
+        });
+      }
+    });
 
-		onMounted(async () => {
-			await getMyCourses();
-			loading.value = false;
+    const watchUnseenLecture = async (course: Course) => {
+      const unseenLectureResponse = await getUnseenLecture(course.id);
+      if (unseenLectureResponse)
+        router.push({
+          path: `/courses/${course.id}/watch`,
+          query: {
+            section: unseenLectureResponse.section.id,
+            lecture: unseenLectureResponse.lecture.id,
+          },
+        });
+    };
 
-			if (courses.value && courses.value.length <= 0) {
-				Object.assign(header, {
-					heading: 'EmptyStates.CourseCardSM.Heading',
-					body: 'EmptyStates.CourseCardSM.Body',
-					link: { to: '/profile/courses', text: 'Buttons.ViewAll' },
-				});
-			}
-		});
-
-		return { t, loading, courses, header };
-	},
+    return { t, loading, courses, header, watchUnseenLecture };
+  },
 });
 </script>
 

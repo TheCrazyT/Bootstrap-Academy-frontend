@@ -4,7 +4,7 @@
 			<img
 				@click="locale = 'en-US'"
 				src="/images/en.webp"
-				alt="English translation"
+				:alt="t('AltAttributes.EnglishTranslation')"
 				class="transition duration-200 ease-out cursor-pointer w-4 h-4 rounded-3xl object-cover"
 				:class="locale == 'en-US' ? 'opacity-100' : 'opacity-60'"
 			/>
@@ -12,7 +12,7 @@
 			<img
 				@click="locale = 'de'"
 				src="/images/de.webp"
-				alt="German translation"
+				:alt="t('AltAttributes.GermanTranslation')"
 				class="transition duration-200 ease-out cursor-pointer w-4 h-4 rounded-3xl object-cover"
 				:class="locale == 'de' ? 'opacity-100' : 'opacity-60'"
 			/>
@@ -24,24 +24,24 @@
 import { useI18n } from 'vue-i18n';
 
 export default {
-	props: {
-		color: { type: String, default: 'bg-tertiary' },
-	},
-	setup() {
-		const { t, locale } = useI18n();
+  props: {
+    color: { type: String, default: 'bg-tertiary' },
+  },
+  setup() {
+    const { t, locale } = useI18n();
 
-		const cookie_locale = useCookie('locale');
+    const cookie_locale = useCookie('locale');
 
-		watch(
-			() => locale.value,
-			(newValue, oldValue) => {
-				cookie_locale.value = newValue;
-			},
-			{ deep: true, immediate: true }
-		);
+    watch(
+      () => locale.value,
+      (newValue, oldValue) => {
+        cookie_locale.value = newValue;
+      },
+      { deep: true, immediate: true }
+    );
 
-		return { locale };
-	},
+    return { locale, t };
+  },
 };
 </script>
 

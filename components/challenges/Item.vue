@@ -8,7 +8,7 @@
       class="grid gap-card grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] cursor-pointer"
       @click="toggleShowChallengeContent"
     >
-      <h2 class="!m-0 text-heading-3">{{ t(data?.title ?? "") }}ss</h2>
+      <h2 class="!m-0 text-heading-3">{{ t(data?.title ?? "") }}</h2>
 
       <ChallengesItemProgress :data="data" />
 
@@ -100,12 +100,12 @@ export default defineComponent({
         path: route.path,
         query: showChallengeContent.value
           ? {
-              ...baseQuery.value,
-            }
+            ...baseQuery.value,
+          }
           : {
-              ...baseQuery.value,
-              challenge: challenge.value,
-            },
+            ...baseQuery.value,
+            challenge: challenge.value,
+          },
       });
     }
 

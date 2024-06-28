@@ -4,7 +4,7 @@
 	>
 		<img
 			src="/images/logo-text.png"
-			alt="Bootstrap Academy logo"
+			:alt="t('AltAttributes.BootstrapAcademyLogo')"
 			class="w-40 mb-5 md:mt-2 block lg:hidden object-contain"
 		/>
 
@@ -16,9 +16,6 @@
 			>
 				{{ t(label) }}
 			</NuxtLink>
-			<a href="https://the-morpheus.cc/" target="_blank">
-				{{ t('Links.Challenges') }}
-			</a>
 		</nav>
 
 		<article class="my-2.5 md:my-5 flex gap-10 justify-center">
@@ -62,45 +59,45 @@ import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
-	setup() {
-		const { t } = useI18n();
+  setup() {
+    const { t } = useI18n();
 
-		let webLinks = [
-			{
-				label: 'Links.Home',
-				pathname: '/',
-			},
-			{
-				label: 'Links.SkillTree',
-				pathname: '/skill-tree',
-			},
-			{
-				label: 'Links.Contact',
-				pathname: '/contact',
-			},
-		];
+    let webLinks = [
+      {
+        label: 'Links.Home',
+        pathname: '/',
+      },
+      {
+        label: 'Links.SkillTree',
+        pathname: '/skill-tree',
+      },
+      {
+        label: 'Links.Contact',
+        pathname: '/contact',
+      },
+    ];
 
-		let usefulLinks = [
-			{
-				label: 'Links.Privacy',
-				pathname: '/docs/privacy',
-			},
-			{
-				label: 'Links.TermsAndConditions',
-				pathname: '/docs/terms-and-conditions',
-			},
-			{
-				label: 'Links.Imprint',
-				pathname: '/docs/imprint',
-			},
-		];
+    let usefulLinks = [
+      {
+        label: 'Links.Privacy',
+        pathname: '/docs/privacy',
+      },
+      {
+        label: 'Links.TermsAndConditions',
+        pathname: '/docs/terms-and-conditions',
+      },
+      {
+        label: 'Links.Imprint',
+        pathname: '/docs/imprint',
+      },
+    ];
 
-		return {
-			webLinks,
-			usefulLinks,
-			t,
-		};
-	},
+    return {
+      webLinks,
+      usefulLinks,
+      t,
+    };
+  },
 });
 </script>
 

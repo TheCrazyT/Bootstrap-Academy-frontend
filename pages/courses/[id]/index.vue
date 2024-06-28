@@ -20,32 +20,32 @@
 -->
 
 <template>
-  <CourseSkeleton v-if="loading" />
+	<CourseSkeleton v-if="loading" />
 
-  <main
-    v-else-if="course"
-    class="relative container-fluid h-screen-main min mt-main mb-main"
-  >
-    <Head>
-      <Title>Course Details - {{ course?.title ?? "" }}</Title>
-    </Head>
+	<main
+		v-else-if="course"
+		class="relative container-fluid h-screen-main min mt-main mb-main"
+	>
+		<Head>
+			<Title>Course Details - {{ course?.title ?? "" }}</Title>
+		</Head>
 
-    <CourseHeader :data="course" />
+		<CourseHeader :data="course" />
 
-    <CourseDetails :data="course" />
+		<CourseDetails :data="course" />
 
-    <CourseOverview
-      :skillID="skillID"
-      :subSkillID="subSkillID"
-      :data="course"
-      :isCourseAccessible="isCourseAccessible"
-      class="md:sticky md:top-container md:self-start"
-    />
+		<CourseOverview
+			:skillID="skillID"
+			:subSkillID="subSkillID"
+			:data="course"
+			:isCourseAccessible="isCourseAccessible"
+			class="md:sticky md:top-container md:self-start"
+		/>
 
-    <section>
-      <h2 class="mb-box text-heading-3">
-        {{ t("Headings.CourseCurriculum") }}
-      </h2>
+		<section>
+			<h2 class="mb-box text-heading-3">
+				{{ t("Headings.CourseCurriculum") }}
+			</h2>
 
       <div class="card style-card bg-secondary">
         <CourseCurriculum
@@ -60,31 +60,45 @@
     <div
       class="content-container"
       :class="{
-        'hide-scrollbar': !!!quizzes || quizzes.length <= 1,
+        'hide-scrollbar': !!!allQuizzes || allQuizzes.length <= 1,
       }"
     >
-      <h2 class="mb-box text-heading-3" v-if="quizzes.length > 0">
-        {{ t("Headings.QuizzesInCourse") }}
-      </h2>
+      <InputButtonToggle
+        :buttonOptions="buttonOptions"
+        v-model="selectedbutton"
+        class="my-10"
+      />
+      <section v-if="allQuizzes && !!allQuizzes.length">
+        <article v-show="selectedbutton == 0">
+          <h2 class="mb-box text-heading-3">
+            {{ t("Headings.QuizzesInCourse") }}
+          </h2>
 
-      <template v-if="quizzes && quizzes.length > 0">
-        <div class="content" v-for="(quiz, i) of quizzes" :key="i">
-          <QuizList full :quizId="quiz?.id" />
-          <!-- {{ quiz?.id }} -->
-        </div>
-      </template>
+            <QuizList :quizzes="allQuizzes" />
+        </article>
+
+        <article v-show="selectedbutton == 1">
+          <h2 class="mb-box text-heading-3">
+            {{ t("Headings.Matchings") }}
+          </h2>
+
+          <div class="content" v-for="(quiz, i) of allQuizzes" :key="i">
+            <MatchingList :quizId="quiz?.id" />
+          </div>
+        </article>
+      </section>
       <h3 v-else class="text-center text-heading-3">
         {{ t("Headings.NoQuizQuestion") }}
       </h3>
     </div>
   </main>
 
-  <CourseEmptyState v-else />
+	<CourseEmptyState v-else />
 </template>
 
 <script lang="ts">
 import { useI18n } from "vue-i18n";
-import { getQuizzesInCourse } from "~~/composables/quizzes";
+import type { Quiz } from "~/types/courseTypes";
 definePageMeta({
   middleware: ["auth"],
 });
@@ -100,8 +114,14 @@ export default {
     const course = useCourse();
     const isCourseAccessible = ref(false);
 
-    const quizzes = useQuizzes();
+    let buttonOptions: any = [
+      // { name: "Buttons.SeasonalBased" },
+      { name: "Buttons.Quiz" },
+      { name: "Buttons.Matchings" },
+    ];
+    const selectedbutton = ref(0);
 
+    const allQuizzes = useQuizzesInCourse();
     const route = useRoute();
     const router = useRouter();
 
@@ -122,7 +142,6 @@ export default {
         loading.value = false;
         return;
       }
-
       const [success, error] = await getCourseByID(id.value);
 
       if (error) {
@@ -131,20 +150,14 @@ export default {
         await getCourseSummaryByID(id.value);
       } else {
         isCourseAccessible.value = true;
-        const [quizzesSuccess, quizzesError] = await getQuizzesInCourse(
-          id.value
-        );
-        if (quizzesError) {
-          openSnackbar("error", "quizzesError");
-        }
       }
+      // await getQuizInfos();
+      await getQuizzes(course.value.id)
 
       loading.value = false;
     });
 
     function watchThisLecture({ sectionID, lectureID }: any) {
-      console.log("skill", skillID.value);
-      console.log("skill", subSkillID.value);
       router.push({
         path: `${route.path}/watch`,
         query: {
@@ -162,44 +175,49 @@ export default {
       t,
       isCourseAccessible,
       watchThisLecture,
-      quizzes,
       skillID,
+      allQuizzes,
       subSkillID,
+      buttonOptions,
+      selectedbutton,
     };
   },
 };
 </script>
 
 <style scoped>
-main {
-  @apply grid gap-container grid-cols-1 md:grid-cols-[1fr_275px] xl:grid-cols-[1fr_350px] place-content-start;
+	main {
+		@apply grid gap-container grid-cols-1 md:grid-cols-[1fr_275px] xl:grid-cols-[1fr_350px] place-content-start;
 
-  grid-template-areas:
-    "header"
-    "overview"
-    "details"
-    "curriculum";
-}
+		grid-template-areas:
+			"header"
+			"overview"
+			"details"
+			"curriculum";
+	}
 
-main > *:nth-child(1) {
-  grid-area: header;
-}
-main > *:nth-child(2) {
-  grid-area: details;
-}
-main > *:nth-child(3) {
-  grid-area: overview;
-}
-main > *:nth-child(4) {
-  grid-area: curriculum;
-}
+	main > *:nth-child(1) {
+		grid-area: header;
+	}
 
-@media screen and (min-width: 768px) {
-  main {
-    grid-template-areas:
-      "header header"
-      "details overview"
-      "curriculum overview";
-  }
-}
+	main > *:nth-child(2) {
+		grid-area: details;
+	}
+
+	main > *:nth-child(3) {
+		grid-area: overview;
+	}
+
+	main > *:nth-child(4) {
+		grid-area: curriculum;
+	}
+
+	@media screen and (min-width: 768px) {
+		main {
+			grid-template-areas:
+				"header header"
+				"details overview"
+				"curriculum overview";
+		}
+	}
 </style>

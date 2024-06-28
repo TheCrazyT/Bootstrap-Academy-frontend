@@ -66,7 +66,20 @@
       <div class="flex p-2 content-container flex-col items-center mt-card">
         <template v-if="quizzes && quizzes.length > 0">
           <div class="content">
-            <QuizList
+            <QuizList :quizzes="quizzes" />
+          </div>
+        </template>
+        <h3 v-else class="text-center text-heading-3">
+          {{ t("Headings.NoQuizQuestion") }}
+        </h3>
+      </div>
+    </article>
+
+    <article class="w-full" v-else-if="activeStepper == 4">
+      <div class="flex p-2 content-container flex-col items-center mt-card">
+        <template v-if="quizzes && quizzes.length > 0">
+          <div class="content">
+            <MatchingList
               v-for="(quiz, i) of quizzes"
               :key="i"
               :quizId="quiz?.id"
@@ -74,7 +87,7 @@
           </div>
         </template>
         <h3 v-else class="text-center text-heading-3">
-          {{ t("Headings.NoQuizQuestion") }}
+          {{ t("Headings.NoMatchings") }}
         </h3>
       </div>
     </article>

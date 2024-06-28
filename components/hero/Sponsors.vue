@@ -6,18 +6,23 @@
 			v-for="(sponsor, i) of sponsors"
 			:key="i"
 			:src="`/images/sponsors/${sponsor}.webp`"
+			:alt="t('AltAttributes.SponsorLogo')"
 			class="flex-shrink-0 snap-center object-contain w-28 transition duration-200 ease-out opacity-80 hover:opacity-100"
 		/>
 	</section>
 </template>
 
 <script>
-export default {
-	setup() {
-		let sponsors = ['BWB', 'FHDW', 'GBI', 'ITCS', 'MT5', 'WINGO'];
+import { useI18n } from 'vue-i18n';
 
-		return { sponsors };
-	},
+export default {
+  setup() {
+    const { t } = useI18n();
+
+    let sponsors = ['BWB', 'FHDW', 'GBI', 'ITCS', 'MT5', 'WINGO'];
+
+    return { t, sponsors };
+  },
 };
 </script>
 

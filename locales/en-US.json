@@ -4,7 +4,7 @@
   "Subheadings": {
     "ContactUs": "Contact Us",
     "Hero": "Bootstrap Academy",
-    "About": "Why use Bootstrap Academy?",
+    "About": "Why to use bootstrap academy",
     "Features": "Features",
     "HeroFAQS": "FAQs",
     "GetMorphcoins": "Get MorphCoins",
@@ -12,6 +12,25 @@
   },
 
   "Headings": {
+    "DragAndDropToMatchMatchings": "Drag And Drop To Match Matchings",
+    "AnswersForMatchingsRespectively": "Answers for Matchings",
+    "LabelForMatchings": "Labels for Matchings",
+    "NoteCannotEditMatching": "Edit Restriction",
+    "DeleteMatching": "Delete Matching",
+    "EmptyMatchings": "Empty Matchings",
+    "NumberOfMatchings": "Number Of Matchings",
+    "One": "One",
+    "TwoMatchings": "Two Matchings",
+    "Two": "Two",
+    "Three": "Three",
+    "Four": "Four",
+    "Five": "Five",
+    "Six": "Six",
+    "Seven": "Seven",
+    "Eight": "Eight",
+    "Nine": "Nine",
+    "Matching": "Matching",
+    "Matchings": "Matchings",
     "Error": "Error",
     "NoErrorFound": "No Error Found",
     "ExampleError": "Example Error",
@@ -24,14 +43,16 @@
     "NoteCannotEditCodingChallenge": "Edit Restrictions",
     "ZoomLevel": "Zoom Level",
     "TotalQuizzes": "Total Quizzes",
+    "TotalQuizzesInLecture": "Quizzes in this lecture",
     "MyQuizzes": "My Quizzes",
     "SolvedQuizzes": "Solved Quizzes",
     "ViewQuizzesForLastViewCourse": "View Quizzes For Last View Course",
     "NoQuizFoundForYouToSolve": "No Quiz Found For You To Solve",
-    "ButAdditionalSubscription": "Buying an additional subscription will be added with your previous subscription duration",
-    "PremiumEndsIn": "Your premium subscription ends",
+    "NoMatchingFoundForYouToSolve": "No Matching Found For You To Solve",
+    "BuyAdditionalSubscription": "Buying an additional subscription will extend the subscription duration.",
+    "PremiumEndsIn": "Your premium subscription ends in",
     "More": "More",
-    "NoMoreUser": "No More Users",
+    "NoMoreUser": "There are no more users",
     "Rank": "Rank",
     "HTML": "Html",
     "Excel": "Excel",
@@ -42,7 +63,8 @@
     "NoOutput": "There is no output for your provided code 🫣",
     "SubmissionSolved": "Solved ✅",
     "PendingResult": "Wait! We are processing your given code",
-    "ChooseCorrectOption": "Choose the correct answers",
+    "ChooseMultipleCorrectOption": "Choose the correct answers",
+    "ChooseSingleCorrectOption": "Choose the correct answer",
     "UpdateYourCode": "Update Your Code",
     "Since": "Since",
     "Until": "Until",
@@ -50,8 +72,11 @@
     "DisableAutopay": "Disable AutoPay",
     "Premium": "Premium",
     "RefillHearts": "Refill Hearts",
+    "AutomaticRefill": "Automatic Refill",
+    "RefillHeartsNow": "Refill now",
+    "Or": "or",
+    "RefillIn": "Refill in",
     "Empty": "Empty",
-    "AutoPay": "Auto Pay",
     "BuyMonthlySubscription": "Buy Monthly Subscription",
     "BuyYearlySubscription": "Buy Yearly Subscription",
     "Thousand": "1,000",
@@ -79,6 +104,9 @@
     "Course": "Course",
     "Lecture": "Lecture",
     "EmptyQuizForThis": "No Quizzes Found For This {placeholder}",
+    "AllQuestionsSolved": "You have already answered all the quiz questions.",
+    "QuestionsAllSolved": "You have answered everything. We have no more questions :)",
+    "QuestionAlreadySolved": "You have already answered this question.",
     "UnlockQuiz": "Buy Quiz to Unlock",
     "ReportComment": "Reason For Reporting",
     "Report": "Report",
@@ -88,7 +116,9 @@
     "Other": "Other",
     "Dislike": "Dislike",
     "UnlockCodingChallenge": "Buy coding challenge to unlock",
-    "EmptySubtasks": "No Quiz Found For This Lecture",
+    "EmptyQuizzes": "No Quiz Found For This Lecture",
+    "NextSubTasksLocation": "The next quizzes are in the lectures on: ",
+    "NoMoreSubTasksInThisCourse": "There are no more quizzes in this course",
     "EmptyCodingChallenge": "No Coding Challenge Found For This Lecture",
     "DeleteQuiz": "Delete Quiz",
     "Quiz": "Quiz",
@@ -105,6 +135,7 @@
     "Quizzes": "Quizzes",
     "QuizzesInCourse": "Quizzes In This Course",
     "NoQuizQuestion": "No Quizz Questions available",
+    "NoMatchings": "No Matchings available",
     "NoQuizTitle": "No Title is provided for this Quiz",
     "EvaluatorCode": "Evaluator Code",
     "SolutionCode": "Solution Code",
@@ -129,9 +160,8 @@
     "Challenge": "Challenge",
     "Explanation": "Explanation",
     "Input": "Input",
-    "ProgramInput": "If input to your code is",
-    "ProgramOutputShouldBe": "Output should be",
     "ExpectedOutput": "Expected Output",
+    "ActualOutput": "Actual Output",
     "Name": "Name",
     "Attempts": "Attempts",
     "Tasks": "Tasks",
@@ -165,6 +195,7 @@
     "Person": "Private Person",
     "Business": "Business",
     "Skill": "Skill",
+    "Skills": "Skills",
     "WebinarRating": "Rate Webinar",
     "CancellationPolicy": "Cancellation Policy",
     "TodayDate": "Today's Date",
@@ -281,6 +312,7 @@
     "Completed": "Completed",
     "Purchased": "Purchased",
     "Total": "Total",
+    "OfWhichUnsolved": "of which unsolved",
     "TotalMorphcoins": "Total Morphcoins",
     "DisabledMFAViaRecoveryCode": "MFA Disabled",
     "SubscribedToNewsLetter": "Subscribed to News Letter",
@@ -326,16 +358,24 @@
     "And": "And",
     "ActiveSkills": "Active Skills",
     "CompletedSkills": "Completed Skills",
-    "OtherSkills": "Other Skills"
+    "OtherSkills": "Other Skills",
+    "IsMine": "Is mine",
+    "Instructor": "Instructor",
+    "Summary": "Summary",
+    "CreationDate": "Creation date",
+    "EmptySubtasks": "In this lecture, there are no quizzes yet.",
+    "MyAccount": "My Account"
   },
   "Body": {
+    "DeleteMatching": "Are you sure you want to delete this matching? This action cannot be undone.",
     "WhyWeUseTests": "The numbers you enter when creating or modifying a coding challenge are simply the number of static/random test cases to test the user's solution against. For example, if I set static_tests=5 and random_tests=3, then for every submission, 5 static testcases and 3 random testcases are generated, which the user's submission is tested against",
     "NoteCannotEditQuiz": "Once a quiz has been created you cannot edit it. But you can delete it and can recreate new one.",
+    "NoteCannotEditMatching": "Once a Matching has been created you cannot edit it. But you can delete it and can recreate new one.",
     "NoteCannotEditCodingChallenge": "Once a Coding Challenge has been created you cannot edit it. But you can delete it and can recreate new one.",
     "QuizDummyQuestion": "Which of the following is a programming language?",
     "UpdateYourCode": "Do you want to update your code with your selected language example code?",
     "RefillHearts": "50 Morphcoins will be deducted from your account to gain your spent hearts",
-    "ChangeAutoPaySubscription": "Change your autopay system by selecting one of the options below. If you want to add more time to your subscription you can subscribe again from the above card options",
+    "ChangeAutoPaySubscription": "Automatic renewal with MorphCoins",
     "EnableAutopay": "We will take care of your payments on ourself and deduct the amount from your account on the basis of your chosen subscription",
     "DisableAutopay": "Do you want to disable autopay?",
     "SubscribeFirst": "To Select Autopay you have to subscribe to any subscription first",
@@ -348,6 +388,11 @@
 
     "Refill2p5Hearts": "Refill 2.5 Hearts for 45 morphcoins",
     "Refill3Hearts": "Refill 3 Hearts for 50 morphcoins",
+
+    "HeartsAreFilled": "First consume your hearts to refill them later.",
+    "Need50MorphCoinsForRefill": "You need at least 50 Morphcoins to refill your hearts.",
+    "NotAllHeartsUsed": "You have not used all your hearts yet.",
+    "RefillHeartsNow": "Do you really want to refill them?",
 
     "BuyMonthlySubscription": "1,000 morphcoins will be deducted from your account for Monthly subscription",
     "BuyYearlySubscription": "10,000 morphcoins will be deducted from your account for Yearly subscription",
@@ -413,11 +458,7 @@
     "AddTags": "Press space to add new tag",
     "DeleteAccount": "Are you sure you want to delete your account? All of your progress and courses you have bought will be lost. This action is cannot be reversed.",
     "VerifyAccountCard": "Your account is not verified. Please verify your account in order to buy coins, watch courses and more!",
-    "ResetPasswordCard": "Want to change your password? No worries! Click to request password change and a code will be emailed to you.",
-    "DeleteAccountCard": "Click to delete your user account. This action cannot be reversed and you will lose all of your skill progress, coins you have bought and courses you have bought.",
     "UploadCertificates": "Already got certifications? Send proofs of your certificates at: ",
-    "DisableMFA": "Don't want MFA anymore? Click on button to remove your multi-factor authentication (MFA)",
-    "EnableMFA": "Multi-factor authentication (MFA) is a process in which you are prompted during login process for a code which you can get from your TOTP app on your cellphone. This way you protect your account against phishing attacks and more.",
     "AreYouSureDisableMFA": "You you sure you want to disable your multi-factor authentication?",
     "EnableMFACode": "Please enter TOTP key to your TOTP app e.g Google Authenticator, Authy, etc to get the 6-digit short-lived authentication code. Enter this 6-digit code to enable your MFA.",
     "DoubleClickToClose": "To view tree, double click on node or outside.",
@@ -427,8 +468,6 @@
     "DisabledMFAViaRecoveryCode": "Since you used your recovery code to login, you Multi-factor authentication (MFA) has been disabled. Click the button if you wish to re-enable MFA.",
     "SubscribedToNewsLetter": "Congratulations! You have successfully subscribed to Bootstrap Academy Newsletter. We cannot wait to share exciting updates with you!",
     "BootstrapNewsletter": "In order to receive Bootstrap Newsletter, enter the registration code that was emailed to you.",
-    "UnregisterNewsletter": "Want to unregister from Bootstrap Newsletter? Click here!",
-    "RegisterForNewsletter": "Register to Bootstrap Newsletter for exciting news and updates!",
     "ConfirmUnregisterNewsletter": "Are you sure you want to unregister from Bootstrap Newsletter? You can always register again.",
     "Challenges": "Please login in order to use Morpheus Coding Challenges",
     "OrLoginWith": "Or login with",
@@ -441,7 +480,46 @@
     "EditNickname": "can be changed after {placeholder}",
     "ActiveSkills": "All skills you are currently working on.",
     "CompletedSkills": "All skills which you have completed.",
-    "OtherSkills": "Rest of the skills which are available for exploring."
+    "OtherSkills": "Rest of the skills which are available for exploring.",
+    "NoUpcomingEvents": "No Events planned",
+    "LearnNewSkillsForFree": "Learn new tech skills with our Free plan",
+    "GetAllServices": "Get all services for a %%% fee",
+    "Monthly": "monthly",
+    "Yearly": "yearly",
+    "CurrentPlan": "current plan",
+    "ThreeHeartsEveryDay": "You receive three hearts every day",
+    "LimitedAccessToCourses": "Limited access to the courses",
+    "LimitedAccessToCoursesTooltip": "You only have access to the free courses in this Academy. Some courses are paid and can only be unlocked with MorphCoins. With the Premium plan you have access to all courses.",
+    "LearnNewThings": "Learn something new!",
+    "UnlimitedHearts": "Unlimited hearts",
+    "UnlimitedHeartsTooltip": "Every time you complete a challenge or quiz, you lose one or half a heart. However, you can also buy a one-time refill of hearts with your MorphCoins.",
+    "AccessToAllCourses": "Access to all courses",
+    "NotEnoughMorphcoins": "You don't have enough MorphCoins",
+    "GetCodeViaEmail": "Receive a code by email",
+    "IrreversibleAction": "cannot be reversed",
+    "LooseProgressMorphCoinsAndCourses": "You lose all progress,%%%purchased MorphCoins and courses",
+    "NotRecommended": "not recommended",
+    "MFATooltipTitle": "Multi-factor authentication (MFA)",
+    "MFATooltipBody": "MFA means that you not only need a password to log in, but also an additional code. Even if a hacker finds out your password, they still have to overcome this additional protection to access your account.",
+    "IncreasedSecurity": "Increased security",
+    "NoMoreIncreaseSecurity": "No more increased security",
+    "ExcitingUpdates": "Exciting news and updates",
+    "NoMoreExcitingUpdates": "No more exciting news and updates"
+  },
+  "AltAttributes": {
+    "BootstrapAcademyLogo": "Bootstrap Academy logo",
+    "EnglishTranslation": "English translation",
+    "GermanTranslation": "German translation",
+    "EventInstructorAvatar": "event instructor avatar",
+    "CourseCover": "course cover",
+    "Euro": "euro",
+    "Morphcoin": "morphcoin",
+    "UserAvatar": "user avatar",
+    "CodingImage": "coding image",
+    "SponsorLogo": "sponsor logo",
+    "CompanyLogo": "company logo",
+    "CourseIcon": "course icon",
+    "SkillCover": "skill cover"
   },
   "List": {
     "WebinarCancellationByOwnerPolicy": {
@@ -503,7 +581,7 @@
     "HeroFAQS": {
       "1": {
         "Heading": "How can I participate? How can I get MorphCoins?",
-        "Body": "There are several possibilities to help us - and get coins: We're regularly offering small jobs, you can help me with a certain video, you can host a webinar, become a coach or an examiner or you can help us with finding and repairing bugs. More details are"
+        "Body": "There are several possibilities to help us - and get coins: We're regularly offering small jobs, you can help me with a certain video, you can host a webinar, become a coach or an examiner or you can help us with finding and repairing bugs. Additionally, you can buy MorphCoins directly via PayPal, SEPA direct debit, giropay, and debit/credit card. All payment methods are processed through PayPal. More details are"
       },
       "2": {
         "Heading": "Is MorphCoin a cryptocurrency?",
@@ -525,7 +603,7 @@
     "GetMorphcoins": {
       "1": {
         "Heading": "Buy MorphCoins ",
-        "Body": "You can buy MorphCoins using euros from shop."
+        "Body": "You can buy MorphCoins using euros in the shop. This is possible directly via PayPal, SEPA direct debit, giropay, and debit/credit card. All payment methods are processed through PayPal."
       },
       "2": {
         "Heading": "Jobs",
@@ -588,7 +666,6 @@
   "Inputs": {
     "Morphcoins": "Morphcoins",
     "Fee": "Fee",
-    "Skills": "Skills",
     "Xp": "Xp",
     "Coins": "Coins",
     "TimeLimit": "Time Limit (ms)",
@@ -616,11 +693,11 @@
     "Correct": "Correct",
     "Question": "Question",
     "Skill": "Skill",
+    "Skills": "Skills",
     "SubSkill": "SubSkill",
     "Course": "Course",
     "Section": "Section",
     "Lecture": "Lecture",
-    "ShowFreeQuizzesOnly": "Show Free Quizzes Only",
     "FirstName": "First Name",
     "LastName": "Last Name",
     "City": "City",
@@ -663,9 +740,15 @@
     "Description": "Description",
     "MFACode": "MFA 6 digit Code",
     "RecoveryCode": "Recovery Code",
-    "RegistrationCode": "Registration Code"
+    "RegistrationCode": "Registration Code",
+    "AnswerOption": "Answer Option"
   },
   "Buttons": {
+    "Matching": "Matching",
+    "Matchings": "Matchings",
+    "CreateMatching": "create Matching",
+    "UpdateMatching": "Update Matching",
+    "DeleteMatching": "Delete Matching",
     "TestAgainstAll": "Test Against All",
     "ManagePremium": "Manage Premium",
     "Challenge": "Challenge",
@@ -680,7 +763,7 @@
     "Yes": "Yes",
     "Yearly": "Yearly",
     "Monthly": "Monthly",
-    "Refill": "Refill",
+    "Refill": "Refill now",
     "BuySubscription": "Buy Subscription",
     "GoPremium": "Go Premium",
     "GoMonthly": "Go Monthly",
@@ -729,6 +812,7 @@
     "CreateQuiz": "Create Quiz",
     "CreateQuizQuestion": "Create Quiz Question",
     "SubmitAnswer": "Submit Answer",
+    "SubmitAnswers": "Submit Answers",
     "Continue": "Continue",
     "AddQuizQuestion": "Add Quiz Question",
     "EditCoaching": "Edit Coach",
@@ -799,7 +883,11 @@
     "RegisterForNewsletter": "Register For Newsletter",
     "ConfirmUnregisterNewsletter": "Yes, Unregister From Newsletter",
     "CookiePolicy": "Okay, I understand",
-    "AddEmail": "Add Email"
+    "AddEmail": "Add Email",
+    "CalendarNextMonth": "Next month",
+    "CalendarPrevMonth": "Previous month",
+    "MoreEventInfo": "More info",
+    "LearnMore": "Learn More"
   },
   "Links": {
     "LeaderBoard": "LeaderBoard",
@@ -851,7 +939,7 @@
     "DontHaveSecretCode": "Don't have TOTP secret code?",
     "InitializeSecretCode": "Click to initialize it",
     "UseRecoveryCode": "Use Recovery Code",
-    "ExploreSkillTree": "Explore the skill tree",
+    "ExploreSkillTree": "Explore skill tree",
     "GetStarted": "to get started.",
     "GoToProfile": "Go To Profile",
     "GoToCourse": "Go To Course",
@@ -863,6 +951,10 @@
     "GravatarImage": "Change your gravatar image at"
   },
   "Success": {
+    "SolvedMatching": "Matching Solved ✅",
+    "DeleteMatching": "Matching Delete Successfully",
+    "CreateMatching": "Matching Created Successfully",
+    "EditMatching": "Matching Updated Successfully",
     "RefilledHearts": "Your hearts are refilled SuccessFully",
     "AutopayUpdated": "Auto pay is updated SuccessFully",
     "SubscribedMonthly": "You have successfully subscribed to monthly subscription",
@@ -922,6 +1014,8 @@
     "DeviceRegistered": "Device configured successfully!"
   },
   "Error": {
+    "WrongMatchingAttempt": "Incorrect Matchings❌. Try Again",
+    "MinimnumTwoFieldsRequired": "There should be minimum two fields",
     "Verdict": {
       "COMPILATION_ERROR": "The program failed to compile ❌",
       "INVALID_OUTPUT_FORMAT": "The program produced invalid output that could not be parsed by the evaluator",
@@ -946,11 +1040,12 @@
     "Need20CoinsForRefill": "You need 20 morphcoins to refill your heart",
     "Need15CoinsForRefill": "You need 15 morphcoins to refill your heart",
     "CannotGetEvaluator": "Evaluator Not Found",
-    "Level20RequiredForCreatingCodingChallenge": "Level twenty (20) is required for creating a Coding Challenge",
+    "Level20RequiredForCreatingCodingChallenge": "You can create coding challenge once you reached level (20)",
     "UserIsBanned": "You are banned and cannot perform this action",
     "NotEnoughCoins": "You Don't have enough coins",
     "NotEnoughHearts": "A minimum of 1 Heart is required to solve. Buy more hearts or go premium",
     "NotEnoughHeartsForQuiz": "A minimum of 0.5 Heart is required to solve MCQ. Buy more hearts or go premium",
+    "NotEnoughHeartsForMatching": "A minimum of 0.5 Heart is required to solve Matching. Buy more hearts or go premium",
     "NoCourseAccess": "You don't have access to this course",
     "NotAllowedForRatings": "You are Not Allowed For Ratings",
     "NotAllowedForReport": "You are Not Allowed To Report",
@@ -964,6 +1059,7 @@
     "TooManyAttemptsForQuiz": "Too Many Attempts For Solving. Try Again In {second} seconds",
     "TooManyAttemptsForCodingChallenge": "Wait! Too Many Attempts",
     "OneCorrectOptionIsMust": "There should must be one correct option",
+    "CannotHaveMoreCharacters": "{input} must not have more than {max} characters",
     "MinimumTwoOptionsForQuiz": "There should be minimum two options provided",
     "OptionsCannotBeSame": "Provided Options Should Not Be Duplicated",
     "QuizAttempt": "Incorrect Option Provided!!",
@@ -1065,15 +1161,15 @@
     },
     "SkillProgress": {
       "Heading": "@:Headings.SkillPoints",
-      "Body": "Explore the skill tree to get started."
+      "Body": "Explore skill tree to get started."
     },
     "Course": {
       "Heading": "Course Not Found",
-      "Body": "This course may not exist or was removed."
+      "Body": "This course may not exist or is removed."
     },
     "CourseCardSM": {
       "Heading": "No Watched Courses",
-      "Body": "You have not watched any courses yet. Explore the skill tree to get started."
+      "Body": "You have not watched courses. Explore skill tree to get started."
     },
     "Courses": {
       "Heading": "No Matching Courses",
@@ -1081,7 +1177,7 @@
     },
     "Lecture": {
       "Heading": "Lecture Not Found",
-      "Body": "This lecture may not exist or was removed."
+      "Body": "This lecture may not exist or is removed."
     },
     "Jobs": {
       "Heading": "No Matching Jobs",
@@ -1089,11 +1185,11 @@
     },
     "Job": {
       "Heading": "Job Not Found",
-      "Body": "This job may not exist or was removed."
+      "Body": "This job may not exist or is removed."
     },
     "Certificates": {
       "Line1": "You have no certificates",
-      "Line2": "Explore the skill tree",
+      "Line2": "Explore skill tree",
       "Line3": "to get started."
     },
     "MyQuizQuestions": {

@@ -15,10 +15,11 @@
 
     <SkillTreeNodeDetailsStepper
       class="h-fit"
+      :subSkillID="subSkillID"
+      :skillID="rootSkillID"
       :activeStepper="activeStepper"
       @activeStepper="activeStepper = $event"
     />
-
     <div class="h-fit pointer-events-none">
       <SkillTreeNodeSvg
         :size="nodeSize"
@@ -51,6 +52,7 @@
 import { defineComponent } from "vue";
 import type { Ref } from "vue";
 import { useI18n } from "vue-i18n";
+import type { Quiz } from "~/types/courseTypes";
 import { getQuizzesInSkill, useQuizzes } from "~~/composables/quizzes";
 definePageMeta({
   middleware: ["auth"],
@@ -71,7 +73,6 @@ export default defineComponent({
     const coachings = useCoachings();
     const webinars = useWebinars();
     const quizzes = useQuizzes();
-
     const route = useRoute();
 
     const rootSkillID = computed(() => {
@@ -151,12 +152,14 @@ export default defineComponent({
           getCoachingsForThisSubSkill(subSkillID.value),
           getWebinarsForThisSubSkill(subSkillID.value),
           getQuizzesInSkill(subSkillID.value),
-          // getQuizzes(), //This api is fake and will return only static quizzes from list
         ]);
+        // assignQuizzes()
       }
 
       loading.value = false;
     });
+
+
 
     onUnmounted(() => {
       if (window) {

@@ -6,17 +6,17 @@
 			<img
 				src="/images/about-1.webp"
 				class="rounded shadow-md object-cover w-full h-full row-span-2"
-				alt=""
+				:alt="t('AltAttributes.CodingImage')"
 			/>
 			<img
 				src="/images/about-4.webp"
 				class="rounded shadow-md object-cover w-full h-full"
-				alt=""
+				:alt="t('AltAttributes.CodingImage')"
 			/>
 			<img
 				src="/images/about-3.webp"
 				class="rounded shadow-md object-cover w-full h-full"
-				alt=""
+				:alt="t('AltAttributes.CodingImage')"
 			/>
 		</article>
 
@@ -46,12 +46,12 @@ import { CheckCircleIcon } from '@heroicons/vue/24/solid';
 import { useI18n } from 'vue-i18n';
 
 export default {
-	components: { CheckCircleIcon },
-	setup() {
-		const { t } = useI18n();
+  components: { CheckCircleIcon },
+  setup() {
+    const { t } = useI18n();
 
-		return { t };
-	},
+    return { t };
+  },
 };
 </script>
 

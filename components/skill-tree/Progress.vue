@@ -11,7 +11,7 @@
       <img
         :src="image"
         class="h-10 w-10 sm:h-12 sm:w-12 object-cover rounded order-1"
-        alt=""
+        :alt="t('AltAttributes.SkillCover')"
       />
 
       <div class="grow order-3 md:order-2 w-full md:w-min">
@@ -23,7 +23,7 @@
         >
           <div>
             <span class="text-body">{{ completed }}/{{ total }}</span>
-            skills
+             {{t("Headings.Skills")}}
           </div>
           <div class="text-heading-2 leading-none text-accent">•</div>
           <div>

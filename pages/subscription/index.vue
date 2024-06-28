@@ -3,17 +3,45 @@
     <section v-if="!isPremium" class="flex flex-col items-center mt-10 gap-10">
       <h2 class="text-3xl font-bold tracking-tight text-accent sm:text-4xl">
         {{ t("Headings.RefillHearts") }}
-        <!-- {{ premiumStatusAutoPay }} -->
       </h2>
-      <div class="max-w-xs">
-        <InputBtn
-          @click="filHearts"
-          :icon="SvgHeart"
-          full
-          iconRight
-          secondary
-          >{{ t("Buttons.Refill") }}</InputBtn
-        >
+      
+      <p v-if="hearts >= 6" class="text-xl text-center">
+        {{ t("Body.HeartsAreFilled") }}
+      </p>
+
+      <div v-else class="md:flex md:space-x-8 w-full">
+        <div class="w-full ring-1 ring-gray text-center p-8 rounded-xl">
+          <h2 class="text-2xl font-bold tracking-tight text-accent mb-6">
+            {{ t("Headings.AutomaticRefill") }}
+          </h2>
+          <SubscriptionTimer :target-time="getNextMidnight()" />
+        </div>
+        <div class="flex items-center max-md:justify-center max-md:my-4 uppercase">
+          <p class="text-3xl">{{ t("Headings.Or") }}</p>
+        </div>
+        <div class="w-full ring-1 ring-gray text-center p-8 rounded-xl">  
+          <h2 class="text-2xl font-bold tracking-tight text-accent mb-6">
+            {{ t("Headings.RefillHeartsNow") }}
+          </h2>
+          
+          <div v-if="coins < 50" class="flex justify-center mt-4">
+            <p class="text-xl max-w-sm">
+              {{ t("Body.Need50MorphCoinsForRefill") }}
+            </p>
+          </div>
+          <div v-else>
+            <div class="flex justify-center" v-if="hearts != 0">
+              <p class="text-xl text-center text-warning mb-6">
+                {{ t("Body.NotAllHeartsUsed") }}
+                <br/>
+                {{ t("Body.RefillHeartsNow") }}
+              </p>
+            </div>
+            <InputBtn @click="filHearts" :icon="SvgHeart" full iconRight secondary >
+              {{ t("Buttons.Refill") }}
+            </InputBtn>
+          </div>
+        </div>
       </div>
     </section>
     <hr v-if="!isPremium" class="mt-10" />
@@ -21,7 +49,7 @@
     <SubscriptionPremiumUntillCountDown v-if="!!isPremium" class="mt-20" />
 
     <section class="rounded-md mb-20 mt-10">
-      <div class="mx-auto max-w-2xl sm:text-center">
+      <div class="mx-auto max-w-2xl sm:text-center" v-if="!isPremium">
         <h2 class="text-3xl font-bold tracking-tight text-accent sm:text-4xl">
           {{ t("Headings.NoTrickPricing") }}
         </h2>
@@ -31,34 +59,23 @@
       </div>
 
       <div class="flex flex-end gap-2 justify-center items-center mb-3 mt-16">
-        <InputButtonToggle
-          :mobileResponsive="false"
-          :buttonOptions="buttonOptions"
-          v-model="selectedButton"
-          class="mb-3"
-        />
+        <InputButtonToggle :mobileResponsive="false" :buttonOptions="buttonOptions" v-model="selectedButton"
+          class="mb-3" />
       </div>
 
-      <div class="flex justify-end mr-10 mb-2 mt-10 gap-3" v-if="!isPremium">
-        <p>{{ t("Body.AutoPay") }}</p>
-        <InputSwitch v-model="autopay" />
+      <div class="flex justify-center">
+        <p class="text-accent mt-3 text-center max-w-md" v-if="isPremium">
+          {{ t("Headings.BuyAdditionalSubscription") }}
+        </p>
       </div>
+      <SubscriptionCard :subscribeMonthly="() => subscribe(false)" :subscribeYearly="() => subscribe(true)"
+        :yearly="selectedButton === 1" class="px-2 mt-5 mb-5" />
 
-      <p class="text-accent mt-3 text-center" v-if="isPremium">
-        {{ t("Headings.ButAdditionalSubscription") }}
-      </p>
-      <SubscriptionCard :card="cards[currentCard]" class="px-2 mt-5 mb-5" />
+      <div class="mt-10 flex flex-col items-center" v-if="!!isPremium">
+        <p class="text-accent font-bold">{{ t("Body.ChangeAutoPaySubscription") }}</p>
 
-      <div class="mt-10" v-if="!!isPremium">
-        <p>{{ t("Body.ChangeAutoPaySubscription") }}</p>
-
-        <InputButtonToggle
-          :mobileResponsive="false"
-          secondary
-          :buttonOptions="changeSubscriptionAutopayButtons"
-          v-model="setValueForAutopayButton"
-          class="my-5 mb-20"
-        />
+        <InputButtonToggle :mobileResponsive="false" secondary :buttonOptions="changeSubscriptionAutopayButtons"
+          v-model="setValueForAutopayButton" class="mt-4 mb-20" />
       </div>
     </section>
   </div>
@@ -69,6 +86,7 @@ import { useI18n } from "vue-i18n";
 import { useCoins } from "~~/composables/coins";
 import { HeartIcon } from "@heroicons/vue/24/solid";
 import SvgHeart from "../../components/svg/Heart.vue";
+
 export default {
   setup() {
     const { t } = useI18n();
@@ -78,45 +96,6 @@ export default {
     const heartInfo: any = useHeartInfo();
     const premiumInfo: any = usePremiumInfo();
     const autopay = ref(false);
-
-    const cards = [
-      {
-        heading: "Headings.YearlyPremiumCardHeading",
-        body: "Body.YearlyPremiumCardBody",
-        featuresHeading: "Headings.WhatsIncluded",
-        features: [
-          "Headings.ExtraTwoMonths",
-          "Headings.Save2000Coins",
-          "Headings.UnlimitedChallenges",
-          "Headings.UnlimitedQuizzes",
-          "Headings.AccessAllCourses",
-          "Headings.OneYearNoLimitations",
-        ],
-        buttonLabel: "Buttons.GoYearly",
-        Quote: "Headings.PayOnceOwnItYearly",
-        price: "Headings.TenThousand",
-        subscribe: () => {
-          subscribeYearly();
-        },
-      },
-      {
-        heading: "Headings.MonthlyPremiumCardHeading",
-        body: "Body.MonthlyPremiumCardBody",
-        featuresHeading: "Headings.WhatsIncluded",
-        features: [
-          "Headings.UnlimitedChallenges",
-          "Headings.UnlimitedQuizzes",
-          "Headings.AccessAllCourses",
-          "Headings.OneMonthNoLimitations",
-        ],
-        buttonLabel: "Buttons.GoMonthly",
-        Quote: "Headings.PayOnceOwnItMonthly",
-        price: "Headings.Thousand",
-        subscribe: () => {
-          subscribeMonthly();
-        },
-      },
-    ];
 
     const isPremium = computed(() => {
       return premiumInfo.value?.premium;
@@ -160,65 +139,39 @@ export default {
       { name: "Buttons.Monthly" },
       { name: "Buttons.Yearly" },
     ];
+    
     const changeSubscriptionAutopayButtons = [
       { name: "Buttons.Monthly" },
       { name: "Buttons.Yearly" },
       { name: "Buttons.TurnOff" },
     ];
 
-    function subscribeMonthly() {
+    function subscribe(isYearly: boolean) {
       console.log("Coins", coins.value);
-      if (coins.value >= 1_000) {
-        openDialog(
-          "info",
-          "Headings.BuyMonthlySubscription",
-          "Body.BuyMonthlySubscription",
-          false,
-          {
-            label: "Buttons.Buy",
-            onclick: async () => {
-              const [success, error] = await buyPremium({
-                plan: "MONTHLY",
-                autopay: !!premiumStatusAutoPay.value,
-              });
-              if (success) {
-                openSnackbar("success", "Success.SubscribedMonthly");
-              }
-            },
-          },
-          {
-            label: "Buttons.Cancel",
-            onclick: () => {},
-          }
-        );
-      } else {
-        openSnackbar("error", "Error.NotEnoughCoins");
-      }
-    }
+      const plan = isYearly ? "YEARLY" : "MONTHLY";
+      const coinsRequired = isYearly ? 10_000 : 1_000;
 
-    function subscribeYearly() {
-      console.log("Coins", coins.value);
-      if (coins.value >= 10_000) {
+      if (coins.value >= coinsRequired) {
         openDialog(
           "info",
-          "Headings.BuyYearlySubscription",
-          "Body.BuyYearlySubscription",
+          isYearly ? "Headings.BuyYearlySubscription" : "Headings.BuyMonthlySubscription",
+          isYearly ? "Body.BuyYearlySubscription" : "Body.BuyMonthlySubscription",
           false,
           {
             label: "Buttons.Buy",
             onclick: async () => {
-              const [success, error] = await buyPremium({
-                plan: "YEARLY",
+              const [success] = await buyPremium({
+                plan: plan,
                 autopay: !!premiumStatusAutoPay.value,
               });
               if (success) {
-                openSnackbar("success", "Success.SubscribedYearly");
+                openSnackbar("success", isYearly ? "Success.SubscribedYearly" : "Success.SubscribedMonthly");
               }
             },
           },
           {
             label: "Buttons.Cancel",
-            onclick: () => {},
+            onclick: () => { },
           }
         );
       } else {
@@ -290,9 +243,34 @@ export default {
         },
         {
           label: "Buttons.Cancel",
-          onclick: () => {},
+          onclick: () => { },
         }
       );
+    }
+
+    const formatTime = (time: number) => {
+      const hours = Math.floor(time / (1000 * 60 * 60));
+      const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((time % (1000 * 60)) / 1000);
+      return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+      function pad(number: number) {
+        return (number < 10 ? "0" : "") + number;
+      }
+    };
+
+    function getNextMidnight() {
+      const now = new Date();
+      const nextDay = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0,
+        0,
+        0
+      );
+      
+      return nextDay.getTime();
     }
 
     async function fnUpdatePremiumAutoPay(value: any) {
@@ -316,7 +294,7 @@ export default {
 
     return {
       t,
-      cards,
+      subscribe,
       currentCard,
       selectedButton,
       buttonOptions,
@@ -325,6 +303,10 @@ export default {
       HeartIcon,
       changeSubscriptionAutopayButtons,
       hearts,
+      heartInfo,
+      coins,
+      formatTime,
+      getNextMidnight,
       filHearts,
       setValueForAutopayButton,
       autopay,

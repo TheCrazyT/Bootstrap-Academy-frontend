@@ -15,7 +15,11 @@
         class="text-heading2 text-sm"
         v-if="!subtask?.solved && user?.id != subtask?.creator"
       >
-        {{ t("Headings.ChooseCorrectOption") }}
+        {{
+          subtask?.single_choice
+            ? t("Headings.ChooseSingleCorrectOption")
+            : t("Headings.ChooseMultipleCorrectOption")
+        }}
       </p>
 
       <p class="text-xs text-accent" v-if="showMaxAttemptsError">
@@ -51,13 +55,15 @@
       </article>
 
       <div>
-        <InputBtn
-          v-if="data?.solved || user?.id == subtask?.creator"
-          full
-          @click="nextQuestion()"
-          iconRight
-          :icon="ChevronDoubleRightIcon"
-        >
+        <p v-if="amountQuestionsLeft == 0" class="text-center mb-2">
+          {{ t("Headings.QuestionsAllSolved") }}
+        </p>
+
+        <p v-else-if="subtask?.solved && user?.id != subtask?.creator" class="text-center mb-2">
+          {{ t("Headings.QuestionAlreadySolved") }}
+        </p>
+
+        <InputBtn v-else-if="data?.solved || user?.id == subtask?.creator" full @click="nextQuestion()" iconRight :icon="ChevronDoubleRightIcon">
           {{ t("Buttons.Next") }}
         </InputBtn>
 
@@ -70,7 +76,11 @@
           mt
           :icon="HalfHeart"
         >
-          {{ t("Buttons.SubmitAnswer") }}
+          {{
+            subtask?.single_choice
+              ? t("Buttons.SubmitAnswer")
+              : t("Buttons.SubmitAnswers")
+          }}
         </InputBtnWithHeart>
 
         <InputBtn
@@ -80,7 +90,11 @@
           @click="onclickSubmitForm()"
           mt
         >
-          {{ t("Buttons.SubmitAnswer") }}
+          {{
+            subtask?.single_choice
+              ? t("Buttons.SubmitAnswer")
+              : t("Buttons.SubmitAnswers")
+          }}
         </InputBtn>
 
         <InputBtn
@@ -128,6 +142,7 @@ export default defineComponent({
   props: {
     data: { type: Object as PropType<any>, default: null },
     doubleColumnOptions: { type: Boolean, default: false },
+    amountQuestionsLeft: { type: Number, default: 0 },
   },
   emits: ["solved", "updateQuestion", "rated", "nextQuestion"],
   components: { FlagIcon, ChevronDoubleRightIcon, HalfHeart, PencilSquareIcon },
